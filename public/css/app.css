@@ -1,0 +1,94 @@
+body {
+    font-family: 'Nunito', sans-serif;
+    padding-top: 56px;
+}
+
+no-padding {
+    padding-bottom = 0;
+}
+  
+.custom-alert {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    font-size: 1.5rem;
+  }
+  
+.hero {
+    background-image: url('/images/image5.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+  
+.custom-img-size {
+    width: 50%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .custom-img-size {
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+    }
+}
+
+footer {
+    padding: 20px;
+}
+
+footer a {
+    color: white;
+}
+
+footer a:hover {
+    color: #ddd;
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    height: 40vh; /* 50% of the viewport height */
+    overflow: hidden;
+}
+
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-item {
+    position: relative;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+}
+
+.carousel-caption {
+    width: 60%;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+}
