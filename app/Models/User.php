@@ -63,4 +63,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Customer::class);
     }
+
+    public function bookingsAsCustomer()
+    {
+        return $this->hasMany(Booking::class, 'customer_id');
+    }
+
+    public function bookingsAsEmployee()
+    {
+        return $this->hasMany(Booking::class, 'employee_id');
+    }
 }
