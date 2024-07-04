@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BookingController;
@@ -32,4 +33,7 @@ Route::post('/login', [AuthController::class, 'authenticate']);
 // Route for authenticating login details
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard')->middleware(['auth', 'admin']);
+Route::get('/admin/create-user', [AdminController::class, 'createUserForm'])->name('admin.createUserForm')->middleware(['auth', 'admin']);
+Route::post('/admin/create-user', [AdminController::class, 'createUser'])->name('admin.createUser')->middleware(['auth', 'admin']);
 

@@ -28,10 +28,16 @@
                         </li>
                     @endguest
 
-                    {{-- Checks if user is logged in or not --}}
+                    {{-- Checks if user is logged in or not, as well as the user type (admin, employee, customer) --}}
                     @auth()
                         <li class="nav-item me-2">
-                            <a class="nav-link" href="/dashboard">{{ Auth::user()->name }}'s Dashboard</a>
+                            @if(Auth::user()->role === 'admin')
+                                <a class="nav-link" href="/admin">{{ Auth::user()->name }}'s Dashboard</a>
+                            @elseif(Auth::user()->role === 'employee')
+                                <a class="nav-link" href="/employee">{{ Auth::user()->name }}'s Dashboard</a>
+                            @else
+                                <a class="nav-link" href="/customer">{{ Auth::user()->name }}'s Dashboard</a>
+                            @endif
                         </li>
                         <li class="nav-item d-flex align-items-center">
                             <form action="{{ route('logout') }}" method="POST" class="m-0">
@@ -42,15 +48,6 @@
                     @endauth
                 </ul>
             </div>
-
-            {{-- use search function for dashboard, searching for bookings --}}
-
-            {{-- Search form
-            <form class="d-flex" role="search" method="GET" action="{{ route('welcome') }}">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query"
-                    required>
-                <button class="btn btn-sm btn-outline-light" type="submit">Search</button>
-            </form> --}}
         </div>
     </div>
 </nav>
