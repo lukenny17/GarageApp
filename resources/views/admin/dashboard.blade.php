@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6">
-                    <h2 class="mb-4 text-center">Customer Registration</h2>
+                    <h2 class="mb-4 text-center">Admin Dashboard</h2>
                     <div class="text-center">
                         <a href="{{ route('admin.createUserForm') }}" class="btn btn-dark">Create New User</a>
                     </div>
@@ -16,7 +16,7 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    
+
                 </div>
             </div>
         </div>

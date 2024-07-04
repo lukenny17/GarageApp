@@ -20,8 +20,7 @@ class AdminMiddleware
         if (Auth::check() && Auth::user()->role === 'admin') {
             return $next($request);
         }
-
-        // Redirect non-admin users
-        return redirect('/');
+        // Return a 403 response with a custom message
+        return response()->json(['message' => 'Forbidden - You do not have access to this resource'], 403);
     }
 }

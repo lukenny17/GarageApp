@@ -46,24 +46,22 @@ class AuthController extends Controller
 
     public function authenticate()
     {
-        // validate
-        $validated = request()->validate(
-            [
-                'email' => 'required|email',
-                'password' => 'required|min:6'
-            ]
-        );
+        // Validate the request data
+        $validated = request()->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ]);
 
-        if(auth()->attempt($validated)){
-
-            // Clear the session if anyone was logged in previoulsy
+        if (auth()->attempt($validated)) {
+            // Clear the session if anyone was logged in previously
             request()->session()->regenerate();
 
-            // Potentially change this to dashboard once created
-            return redirect()->route('welcome');
+            // Redirect to the intended URL if any, or to the welcome page - this is practical for users who wanted to access the bookings page (but werent logged in), then
+            // were redirected to login, and then would automatically be returned to the bookings page (rather than the default welcome page)
+            return redirect()->intended(route('welcome'));
         }
 
-        // redirect to login if unsuccesful
+        // Redirect to login if unsuccessful
         return redirect()->route('login')->withErrors([
             'email' => 'No matching user found with the provided email and password'
         ]);

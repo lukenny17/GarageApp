@@ -6,6 +6,11 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <h2 class="mb-4 text-center">Login</h2>
+                    @if (session('message'))
+                        <div class="alert alert-warning">
+                            {{ session('message') }}
+                        </div>
+                    @endif
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group mb-3">

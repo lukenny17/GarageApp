@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
@@ -22,22 +23,19 @@ class BookingController extends Controller
     {
         // Validate the request data
         $request->validate([
-            // service_id must be present and must exist in the id column of the services table.
             'service_id' => 'required|exists:services,id',
             'date' => 'required|date',
             'time' => 'required|date_format:H:i',
-            // Add other validation rules as needed
         ]);
 
-        // Create a new booking (takes an array of k-v pairs where keys are column names in bookings table and values are data to be inserted)
+        // Create a new booking
         Booking::create([
-            'user_id' => auth()->id(), // Assumes the user is authenticated - NOT YET
+            'user_id' => Auth::id(),
             'service_id' => $request->service_id,
             'start_time' => $request->date . ' ' . $request->time,
             'status' => 'pending',
         ]);
 
-        // Takes user to route in web.php labelled 'bookings.confirmation', which then redirects back to confirmation() function below
         return redirect()->route('bookings.confirmation');
     }
 
@@ -46,6 +44,4 @@ class BookingController extends Controller
     {
         return view('bookings.confirmation');
     }
-
-    // Additional methods for managing bookings
 }
