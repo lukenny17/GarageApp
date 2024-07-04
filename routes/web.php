@@ -5,6 +5,8 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Route;
 
+// Look into route grouping to refactor at the end
+
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 // Route for creating a booking, model_name.action_name

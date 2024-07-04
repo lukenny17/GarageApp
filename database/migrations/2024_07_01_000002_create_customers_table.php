@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Reference to users table
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Reference to users table. Cascade, if you delete the user, it deletes the customer referencing it too
             $table->timestamps();
         });
     }

@@ -19,6 +19,9 @@ class Booking extends Model
         'status',
     ];
 
+    // name of method is name of table that 'Booking' has a relationship with.
+    // 'belongsTo' what? e.g., 'User' class. Also pass in 'foreign key' and 'local key'
+
     public function customer()
     {
         return $this->belongsTo(User::class, 'customer_id');

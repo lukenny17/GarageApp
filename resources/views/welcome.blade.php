@@ -6,7 +6,7 @@
     <div class="container">
         <h1 class="display-4">{{config('app.name')}}</h1>
         <p class="lead">Rev Up Your Service.</p>
-        <a href="#" class="btn btn-outline-light btn-lg">Book Now</a>
+        <a href="/bookings" class="btn btn-outline-light btn-lg">Book Now</a>
     </div>
 </div>
 
@@ -56,7 +56,7 @@
                 {{-- <h4 class="mb-3">First-Class Auto Services</h4> --}}
                 <p>We offer a wide range of services to meet your needs. From routine maintenance to major repairs,
                     our experienced team is here to help.</p>
-                <a href="#" class="btn btn-dark">Learn More</a>
+                <a href="/services" class="btn btn-dark">Learn More</a>
             </div>
         </div>
     </div>
