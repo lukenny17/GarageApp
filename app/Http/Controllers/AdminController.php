@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Administrator;
+use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -32,12 +35,25 @@ class AdminController extends Controller
         ]);
 
         // Create a new user
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
         ]);
+
+        // Create related record based on role
+        switch ($request->role) {
+            case 'customer':
+                Customer::create(['user_id' => $user->id]);
+                break;
+            case 'employee':
+                Employee::create(['user_id' => $user->id]);
+                break;
+            case 'admin':
+                Administrator::create(['user_id' => $user->id]);
+                break;
+        }
 
         // Redirect back to the admin dashboard with a success message
         return redirect()->route('admin.dashboard')->with('success', 'User created successfully.');

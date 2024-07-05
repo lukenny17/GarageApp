@@ -57,6 +57,7 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+            'log_queries' => env('DB_LOG_QUERIES', false), // Added this line to log queries/understand why db has deleted all entries twice
         ],
 
         'mariadb' => [

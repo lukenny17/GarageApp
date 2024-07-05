@@ -123,4 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    // Added to check if query logging is enabled in .env (environment variable)
+    'db_log_queries' => env('DB_LOG_QUERIES', false),
+
 ];

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Administrator;
+use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +23,7 @@ class AuthController extends Controller
             [
                 'name' => 'required|min:3|max:40',
                 'email' => 'required|email|unique:users,email',
-                'password' => 'required|confirmed|min:6'
+                'password' => 'required|confirmed|min:6',
             ]
         );
 
@@ -30,10 +33,15 @@ class AuthController extends Controller
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
+                'role' => 'customer', // Default role for registration is customer
             ]
         );
+        
+        // Create a corresponding customer record
+        Customer::create(['user_id' => $user->id]);
 
-        // login (depends if logged in immediately after registration). Add later if needed
+        // Log the user in immediately after registration
+        auth()->login($user);
 
         // redirect, potentially change this to dashboard once created
         return redirect()->route('welcome');

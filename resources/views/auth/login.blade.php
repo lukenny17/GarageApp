@@ -7,7 +7,7 @@
                 <div class="col-md-6">
                     <h2 class="mb-4 text-center">Login</h2>
                     @if (session('message'))
-                        <div class="alert alert-warning">
+                        <div class="alert alert-warning text-center">
                             {{ session('message') }}
                         </div>
                     @endif
