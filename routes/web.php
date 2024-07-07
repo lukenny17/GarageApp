@@ -4,9 +4,24 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+
+Route::get('/about', [WelcomeController::class, 'about'])->name('about');
+
+Route::get('/services', [BookingController::class, 'showServices'])->name('services');
+
+// Customer Dashboard
+Route::middleware(['auth', 'customer'])->group(function () {
+    Route::get('/customer', [CustomerController::class, 'dashboard'])->name('customer.dashboard');
+    Route::post('/customer/bookings/cancel/{id}', [CustomerController::class, 'cancelBooking']);
+    Route::post('/customer/bookings/reschedule/{id}', [CustomerController::class, 'rescheduleBooking']);
+    Route::post('/customer/bookings/review/{id}', [CustomerController::class, 'leaveReview']);
+    Route::get('/customer/vehicles/{id}', [CustomerController::class, 'getVehicle']);
+    Route::post('/customer/vehicles/update/{id}', [CustomerController::class, 'updateVehicle']);
+});
 
 // Route for creating a booking, model_name.action_name
 Route::middleware(['customer'])->group(function () {

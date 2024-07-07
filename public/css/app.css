@@ -19,7 +19,7 @@ no-padding {
   }
   
 .hero {
-    background-image: url('/images/image5.jpg');
+    background-image: url('/images/hero_welcome.jpg');
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -41,6 +41,18 @@ no-padding {
         height: auto;
         margin-bottom: 20px;
     }
+}
+
+.hero-about {
+    background-image: url('/images/hero_about.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 footer {
@@ -91,4 +103,21 @@ footer a:hover {
     padding: 10px 20px;
     border-radius: 5px;
     color: white;
+}
+
+.fixed-height-img {
+    height: 350px; 
+    object-fit: cover;
+    width: 100%;
+}
+
+// to fix width of customer dashboard columns
+.table-fixed {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table-fixed thead th,
+.table-fixed tbody td {
+    width: 25%;
 }

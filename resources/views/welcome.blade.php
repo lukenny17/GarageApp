@@ -19,21 +19,21 @@
                 <div id="servicesCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="/images/image1.jpg" class="d-block w-100 rounded-3" alt="Service 1">
+                            <img src="/images/full_service.jpg" class="d-block w-100 rounded-3" alt="Service 1">
                             <div class="carousel-caption">
                                 <h5>Full MOT</h5>
                                 {{-- <p>Short description of Service 1.</p> --}}
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="/images/image2.jpg" class="d-block w-100 rounded-3" alt="Service 2">
+                            <img src="/images/engine_diagnostics.jpg" class="d-block w-100 rounded-3" alt="Service 2">
                             <div class="carousel-caption">
                                 <h5>Engine Diagnostics</h5>
                                 {{-- <p>Short description of Service 2.</p> --}}
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="/images/image10.jpg" class="d-block w-100 rounded-3" alt="Service 3">
+                            <img src="/images/oil_change.jpg" class="d-block w-100 rounded-3" alt="Service 3">
                             <div class="carousel-caption">
                                 <h5>Oil Change</h5>
                                 {{-- <p>Short description of Service 3.</p> --}}

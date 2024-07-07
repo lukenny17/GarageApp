@@ -4,12 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use App\Models\Booking;
+use App\Models\Review;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 {
+
+    public function showServices()
+    {
+        // Fetch all services from the database
+        $services = Service::all();
+
+        // Pass the services to the view
+        return view('services', compact('services'));
+    }
+
     public function create()
     {
         // Fetch all services from the database
@@ -81,4 +93,49 @@ class BookingController extends Controller
     {
         return view('bookings.confirmation');
     }
+
+    // Methods for customer dashboard, allowing customers to cancel/reschedule bookings and leave reviews
+    public function cancelBooking($id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->delete();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function rescheduleBooking(Request $request, $id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->update([
+            'startTime' => $request->date . ' ' . $request->time,
+        ]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function leaveReview(Request $request, $id)
+    {
+        Log::info('Leave review request received', ['request' => $request->all(), 'booking_id' => $id]);
+    
+        // Validate the request data
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string',
+        ]);
+    
+        // Find the booking
+        $booking = Booking::findOrFail($id);
+    
+        // Create a new review associated with the booking
+        $review = Review::create([
+            'booking_id' => $booking->id,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+    
+        Log::info('Review created successfully', ['review' => $review]);
+    
+        return response()->json(['success' => true]);
+    }
+    
 }
