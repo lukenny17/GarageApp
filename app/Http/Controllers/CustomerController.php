@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Review;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,13 +39,25 @@ class CustomerController extends Controller
 
     public function leaveReview(Request $request, $id)
     {
-        $booking = Booking::findOrFail($id);
-        $booking->update([
-            'review' => $request->review,
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string|max:1000',
         ]);
-
+    
+        Review::create([
+            'booking_id' => $id,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+    
+        $booking = Booking::find($id);
+        $booking->review_submitted = 1;
+        $booking->save();
+    
         return response()->json(['success' => true]);
     }
+    
+
 
     public function getVehicle($id)
     {

@@ -31,7 +31,8 @@
                                             data-id="{{ $booking->id }}">Cancel</button>
                                     @else
                                         <button class="btn btn-sm btn-success btn-review-booking"
-                                            data-id="{{ $booking->id }}">Leave Review</button>
+                                            data-id="{{ $booking->id }}"
+                                            @if ($booking->review_submitted) disabled @endif>Leave Review</button>
                                     @endif
                                     <button class="btn btn-sm btn-secondary"
                                         onclick="location.href='mailto:admin@example.com?subject=Query About Booking #{{ $booking->id }}'">Contact</button>
@@ -128,13 +129,14 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="rating" class="form-label">Rating</label>
-                                <select class="form-select" id="rating" name="rating" required>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
+                                <div class="star-rating">
+                                    <input type="hidden" name="rating" id="rating" required>
+                                    <i class="fas fa-star" data-value="1"></i>
+                                    <i class="fas fa-star" data-value="2"></i>
+                                    <i class="fas fa-star" data-value="3"></i>
+                                    <i class="fas fa-star" data-value="4"></i>
+                                    <i class="fas fa-star" data-value="5"></i>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="comment" class="form-label">Comment</label>
@@ -143,7 +145,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                            <button type="submit" class="btn btn-primary btn-submit-review">Submit Review</button>
                         </div>
                     </div>
                 </form>
@@ -232,9 +234,29 @@
                     body: formData
                 }).then(response => response.json()).then(data => {
                     if (data.success) {
-                        new bootstrap.Modal(document.getElementById('rescheduleBookingModal')).hide();
+                        new bootstrap.Modal(document.getElementById('rescheduleBookingModal'))
+                            .hide();
                         location.reload();
                     }
+                });
+            });
+
+            // Leave Review
+            // Star rating system
+            const stars = document.querySelectorAll('.star-rating .fa-star');
+            const ratingInput = document.getElementById('rating');
+
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    ratingInput.value = value;
+                    stars.forEach(s => {
+                        if (s.getAttribute('data-value') <= value) {
+                            s.classList.add('checked');
+                        } else {
+                            s.classList.remove('checked');
+                        }
+                    });
                 });
             });
 
@@ -260,6 +282,9 @@
                     body: formData
                 }).then(response => response.json()).then(data => {
                     if (data.success) {
+                        // Disable the submit button
+                        document.querySelector('.btn-review-booking[data-id="' + bookingId + '"]')
+                            .disabled = true;
                         new bootstrap.Modal(document.getElementById('reviewBookingModal')).hide();
                         location.reload();
                     }
