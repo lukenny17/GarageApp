@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
@@ -14,7 +16,7 @@ Route::get('/about', [WelcomeController::class, 'about'])->name('about');
 Route::get('/services', [BookingController::class, 'showServices'])->name('services');
 
 // Customer Dashboard
-Route::middleware(['auth', 'customer'])->group(function () {
+Route::middleware(['auth', 'customer', 'verified'])->group(function () {
     Route::get('/customer', [CustomerController::class, 'dashboard'])->name('customer.dashboard');
     Route::post('/customer/bookings/cancel/{id}', [CustomerController::class, 'cancelBooking']);
     Route::post('/customer/bookings/reschedule/{id}', [CustomerController::class, 'rescheduleBooking']);
@@ -24,7 +26,7 @@ Route::middleware(['auth', 'customer'])->group(function () {
 });
 
 // Route for creating a booking, model_name.action_name
-Route::middleware(['customer'])->group(function () {
+Route::middleware(['customer', 'verified'])->group(function () {
     Route::get('/bookings', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::get('/bookings/confirmation', [BookingController::class, 'confirmation'])->name('bookings.confirmation');
@@ -44,6 +46,25 @@ Route::post('/login', [AuthController::class, 'authenticate']);
 
 // Route for logging out
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::middleware('auth')->group(function () {
+    // Displays the email verification notice to users who have registered but not yet verified their email addresses
+    Route::get('/email/verify', function () {
+        return view('auth.verify-email');
+    })->name('verification.notice');
+
+    // Handles the actual verification of the email address when the user clicks the verification link sent to their email
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect('/login');
+    })->middleware('signed')->name('verification.verify');
+
+    // Allows users to request a new verification email if they haven't received the original one
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('message', 'Verification link sent!');
+    })->middleware('throttle:6,1')->name('verification.send');
+});
 
 // Route for accessing admin dashboard
 Route::middleware(['auth', 'admin'])->group(function () {

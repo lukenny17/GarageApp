@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Administrator;
 use App\Models\Customer;
-use App\Models\Employee;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
@@ -40,11 +38,11 @@ class AuthController extends Controller
         // Create a corresponding customer record
         Customer::create(['user_id' => $user->id]);
 
-        // Log the user in immediately after registration
-        auth()->login($user);
+        // Send email verification notification
+        event(new Registered($user));
 
-        // redirect, potentially change this to dashboard once created
-        return redirect()->route('welcome');
+        // Redirect to the verification notice page
+        return redirect()->route('verification.notice');
     }
 
     public function login()
