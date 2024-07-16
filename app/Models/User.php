@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -13,11 +11,6 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -25,42 +18,28 @@ class User extends Authenticatable implements MustVerifyEmail
         'role',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 
-    // Defines a one-to-one relationship between two models
-    // 'this' refers to current instance of the User model
-    public function employee(): HasOne
+    // Relationships
+    public function employee()
     {
         return $this->hasOne(Employee::class);
     }
 
-    public function administrator(): HasOne
+    public function administrator()
     {
         return $this->hasOne(Administrator::class);
     }
 
-    public function customer(): HasOne
+    public function customer()
     {
         return $this->hasOne(Customer::class);
     }
@@ -75,7 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Booking::class, 'employee_id');
     }
 
-    public function vehicles(): HasMany
+    public function vehicles()
     {
         return $this->hasMany(Vehicle::class);
     }

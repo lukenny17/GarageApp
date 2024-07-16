@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Administrator;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class AdminUserSeeder extends Seeder
@@ -21,6 +22,7 @@ class AdminUserSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
             'role' => 'admin',
+            'email_verified_at' => Carbon::now(),
         ]);
 
         // Create related administrator record

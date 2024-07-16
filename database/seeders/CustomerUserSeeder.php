@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Customer;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -35,6 +36,7 @@ class CustomerUserSeeder extends Seeder
                 'email' => $customerData['email'],
                 'password' => Hash::make('password'),
                 'role' => 'customer',
+                'email_verified_at' => Carbon::now(),
             ]);
 
             // Create related customer record

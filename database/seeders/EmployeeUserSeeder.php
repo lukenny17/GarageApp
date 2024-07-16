@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Employee;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -32,6 +33,7 @@ class EmployeeUserSeeder extends Seeder
                     'email' => $employeeData['email'],
                     'password' => Hash::make('password'),
                     'role' => 'employee',
+                    'email_verified_at' => Carbon::now(),
                 ]);
 
                 // Create related employee record

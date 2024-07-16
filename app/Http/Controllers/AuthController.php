@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -16,25 +17,21 @@ class AuthController extends Controller
 
     public function store()
     {
-        // validate
-        $validated = request()->validate(
-            [
-                'name' => 'required|min:3|max:40',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required|confirmed|min:6',
-            ]
-        );
+        // Validate the request
+        $validated = request()->validate([
+            'name' => 'required|min:3|max:40',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed|min:6',
+        ]);
 
-        // create user
-        $user = User::create(
-            [
-                'name' => $validated['name'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
-                'role' => 'customer', // Default role for registration is customer
-            ]
-        );
-        
+        // Create user
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => 'customer', // Default role for registration is customer
+        ]);
+
         // Create a corresponding customer record
         Customer::create(['user_id' => $user->id]);
 
@@ -59,11 +56,11 @@ class AuthController extends Controller
         ]);
 
         if (auth()->attempt($validated)) {
+
             // Clear the session if anyone was logged in previously
             request()->session()->regenerate();
 
-            // Redirect to the intended URL if any, or to the welcome page - this is practical for users who wanted to access the bookings page (but werent logged in), then
-            // were redirected to login, and then would automatically be returned to the bookings page (rather than the default welcome page)
+            // Redirect users to intended route (i.e., bookings if that was clicked on initially) or, by default, welcome page
             return redirect()->intended(route('welcome'));
         }
 

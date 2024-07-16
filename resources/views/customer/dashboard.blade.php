@@ -6,7 +6,8 @@
 
         <!-- Bookings Section -->
         <div class="mb-4">
-            <h4 class="text-center">Bookings</h4>
+            <h4>Bookings</h4>
+            <hr>
             @if ($bookings->count() > 0)
                 <table class="table table-striped table-fixed">
                     <thead>
@@ -52,7 +53,8 @@
 
         <!-- Vehicles Section -->
         <div class="mb-4">
-            <h4 class="text-center">Vehicles</h4>
+            <h4>Vehicles</h4>
+            <hr>
             @if ($vehicles->count() > 0)
                 <table class="table table-striped table-fixed">
                     <thead>
@@ -82,6 +84,14 @@
                     </div>
                 </div>
             @endif
+        </div>
+
+        <!-- Settings Link -->
+        <div class="mb-4 text-center">
+            <a href="{{ route('customer.settings') }}" class="btn btn-dark">
+                <span>Edit Profile</span>
+                {{-- <i class="fas fa-cog"></i> --}}
+            </a>
         </div>
 
         <!-- Modals -->

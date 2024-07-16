@@ -7,6 +7,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
@@ -23,6 +24,10 @@ Route::middleware(['auth', 'customer', 'verified'])->group(function () {
     Route::post('/customer/bookings/review/{id}', [CustomerController::class, 'leaveReview'])->name('bookings.review');
     Route::get('/customer/vehicles/{id}', [CustomerController::class, 'getVehicle']);
     Route::post('/customer/vehicles/update/{id}', [CustomerController::class, 'updateVehicle']);
+    Route::get('/customer/settings', [CustomerController::class, 'settings'])->name('customer.settings');
+    Route::post('/customer/update-email', [CustomerController::class, 'updateEmail'])->name('customer.updateEmail');
+    Route::post('/customer/update-password', [CustomerController::class, 'updatePassword'])->name('customer.updatePassword');
+    Route::post('/customer/delete-account', [CustomerController::class, 'destroyAccount'])->name('customer.destroyAccount');
 });
 
 // Route for creating a booking, model_name.action_name
@@ -31,6 +36,7 @@ Route::middleware(['customer', 'verified'])->group(function () {
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::get('/bookings/confirmation', [BookingController::class, 'confirmation'])->name('bookings.confirmation');
 });
+
 
 // Route for opening registration page
 Route::get('/register', [AuthController::class, 'register'])->name('register');
