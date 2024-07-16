@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Administrator;
+use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -57,5 +59,46 @@ class AdminController extends Controller
 
         // Redirect back to the admin dashboard with a success message
         return redirect()->route('admin.dashboard')->with('success', 'User created successfully.');
+    }
+
+    public function getBookings(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'start_date' => 'required|date',
+                'end_date' => 'required|date|after_or_equal:start_date',
+            ]);
+
+            $startDate = $validated['start_date'] . ' 00:00:00';
+            $endDate = $validated['end_date'] . ' 23:59:59';
+
+            $bookings = Booking::where(function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('startTime', [$startDate, $endDate])
+                    ->orWhereRaw('DATE_ADD(startTime, INTERVAL duration HOUR) BETWEEN ? AND ?', [$startDate, $endDate]);
+            })
+                ->with(['customer', 'service', 'employee', 'vehicle'])
+                ->get();
+
+            // Fetch employees
+            $employees = User::where('role', 'employee')->get();
+
+            return response()->json(['bookings' => $bookings, 'employees' => $employees]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching bookings.'], 500);
+        }
+    }
+
+    public function assignEmployee(Request $request)
+    {
+        $request->validate([
+            'booking_id' => 'required|exists:bookings,id',
+            'employee_id' => 'nullable|exists:users,id',
+        ]);
+
+        $booking = Booking::findOrFail($request->booking_id);
+        $booking->employee_id = $request->employee_id;
+        $booking->save();
+
+        return response()->json(['success' => true]);
     }
 }

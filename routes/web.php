@@ -77,4 +77,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/create-user', [AdminController::class, 'createUserForm'])->name('admin.createUserForm');
     Route::post('/admin/create-user', [AdminController::class, 'createUser'])->name('admin.createUser');
+    Route::post('/admin/get-bookings', [AdminController::class, 'getBookings'])->name('admin.getBookings');
+    Route::post('/admin/assign-employee', [AdminController::class, 'assignEmployee'])->name('admin.assignEmployee');
 });

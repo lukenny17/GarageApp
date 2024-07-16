@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Booking;
+use App\Models\Customer;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
@@ -15,8 +16,8 @@ class BookingSeeder extends Seeder
     {
         $bookings = [
             [
-                'customer_id' => 1,
-                'employee_id' => 1,
+                'customer_id' => Customer::find(2)->id,
+                'employee_id' => null,
                 'service_id' => 1,
                 'vehicle_id' => 1,
                 'startTime' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
@@ -24,8 +25,8 @@ class BookingSeeder extends Seeder
                 'status' => 'scheduled',
             ],
             [
-                'customer_id' => 2,
-                'employee_id' => 1,
+                'customer_id' => Customer::find(2)->id,
+                'employee_id' => null,
                 'service_id' => 2,
                 'vehicle_id' => 3,
                 'startTime' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
@@ -33,8 +34,8 @@ class BookingSeeder extends Seeder
                 'status' => 'scheduled',
             ],
             [
-                'customer_id' => 3,
-                'employee_id' => 2,
+                'customer_id' => Customer::find(2)->id,
+                'employee_id' => null,
                 'service_id' => 3,
                 'vehicle_id' => 5,
                 'startTime' => Carbon::now()->addDays(3)->format('Y-m-d H:i:s'),
@@ -42,8 +43,8 @@ class BookingSeeder extends Seeder
                 'status' => 'scheduled',
             ],
             [
-                'customer_id' => 4,
-                'employee_id' => 2,
+                'customer_id' => Customer::find(2)->id,
+                'employee_id' => null,
                 'service_id' => 4,
                 'vehicle_id' => 7,
                 'startTime' => Carbon::now()->addDays(4)->format('Y-m-d H:i:s'),
@@ -51,8 +52,8 @@ class BookingSeeder extends Seeder
                 'status' => 'scheduled',
             ],
             [
-                'customer_id' => 5,
-                'employee_id' => 3,
+                'customer_id' => Customer::find(2)->id,
+                'employee_id' => null,
                 'service_id' => 5,
                 'vehicle_id' => 9,
                 'startTime' => Carbon::now()->addDays(5)->format('Y-m-d H:i:s'),
@@ -60,8 +61,8 @@ class BookingSeeder extends Seeder
                 'status' => 'scheduled',
             ],
             [
-                'customer_id' => 6,
-                'employee_id' => 3,
+                'customer_id' => Customer::find(2)->id,
+                'employee_id' => null,
                 'service_id' => 6,
                 'vehicle_id' => 11,
                 'startTime' => Carbon::now()->addDays(6)->format('Y-m-d H:i:s'),
@@ -69,8 +70,8 @@ class BookingSeeder extends Seeder
                 'status' => 'scheduled',
             ],
             [
-                'customer_id' => 7,
-                'employee_id' => 4,
+                'customer_id' => Customer::find(3)->id,
+                'employee_id' => null,
                 'service_id' => 7,
                 'vehicle_id' => 13,
                 'startTime' => Carbon::now()->addDays(7)->format('Y-m-d H:i:s'),
@@ -78,8 +79,8 @@ class BookingSeeder extends Seeder
                 'status' => 'scheduled',
             ],
             [
-                'customer_id' => 8,
-                'employee_id' => 4,
+                'customer_id' => Customer::find(3)->id,
+                'employee_id' => null,
                 'service_id' => 8,
                 'vehicle_id' => 15,
                 'startTime' => Carbon::now()->addDays(8)->format('Y-m-d H:i:s'),

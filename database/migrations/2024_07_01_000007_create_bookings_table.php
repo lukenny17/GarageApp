@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('vehicle_id')->constrained('vehicles')->onDelete('cascade');
             $table->dateTime('startTime');
             $table->decimal('duration', 3, 1);
-            $table->string('status');
+            $table->enum('status', ['scheduled', 'completed', 'cancelled']);
             $table->timestamps();
         });
     }
