@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -79,4 +80,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/create-user', [AdminController::class, 'createUser'])->name('admin.createUser');
     Route::post('/admin/get-bookings', [AdminController::class, 'getBookings'])->name('admin.getBookings');
     Route::post('/admin/assign-employee', [AdminController::class, 'assignEmployee'])->name('admin.assignEmployee');
+    Route::get('/admin/addService', [ServiceController::class, 'showAddServiceForm'])->name('admin.addServiceForm');
+    Route::post('/admin/addService', [ServiceController::class, 'storeService'])->name('admin.storeService');
 });
