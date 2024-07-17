@@ -22,7 +22,7 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <button type="submit" class="btn btn-dark">Update Email</button>
+                    <button type="submit" class="btn custom-btn">Update Email</button>
                 </form>
             </div>
         </div>
@@ -50,7 +50,7 @@
                         <label for="password_confirmation">Confirm New Password</label>
                         <input type="password" name="password_confirmation" class="form-control" required>
                     </div>
-                    <button type="submit" class="btn btn-dark">Update Password</button>
+                    <button type="submit" class="btn custom-btn">Update Password</button>
                 </form>
             </div>
         </div>

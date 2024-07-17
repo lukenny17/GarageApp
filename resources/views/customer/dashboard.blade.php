@@ -88,7 +88,7 @@
 
         <!-- Settings Link -->
         <div class="mb-4 text-center">
-            <a href="{{ route('customer.settings') }}" class="btn btn-dark">
+            <a href="{{ route('customer.settings') }}" class="btn custom-btn">
                 <span>Edit Profile</span>
                 {{-- <i class="fas fa-cog"></i> --}}
             </a>

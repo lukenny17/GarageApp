@@ -37,7 +37,7 @@
                             @enderror
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-dark">Register</button>
+                            <button type="submit" class="btn custom-btn">Register</button>
                         </div>
                     </form>
                     <hr>

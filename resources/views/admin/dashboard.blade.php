@@ -25,7 +25,7 @@
                                             <input type="date" id="endDate" name="endDate" class="form-control">
                                         </div>
                                         <div class="col-auto d-flex align-items-center mb-2">
-                                            <button type="button" id="viewBookingsButton" class="btn btn-dark">View
+                                            <button type="button" id="viewBookingsButton" class="btn custom-btn">View
                                                 Bookings</button>
                                         </div>
                                     </form>
@@ -39,8 +39,8 @@
                                     <h4 class="mb-0">Actions</h4>
                                 </div>
                                 <div class="card-body text-center">
-                                    <a href="{{ route('admin.createUserForm') }}" class="btn btn-dark mb-2">Create New User</a>
-                                    <a href="{{ route('admin.addServiceForm') }}" class="btn btn-dark mb-2">Add New Service</a>
+                                    <a href="{{ route('admin.createUserForm') }}" class="btn custom-btn mb-2">Create New User</a>
+                                    <a href="{{ route('admin.addServiceForm') }}" class="btn custom-btn mb-2">Add New Service</a>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
                                     <p id="eventStaff"></p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn custom-btn" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>

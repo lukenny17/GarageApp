@@ -49,7 +49,7 @@
                             @enderror
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-dark">Create User</button>
+                            <button type="submit" class="btn custom-btn">Create User</button>
                         </div>
                     </form>
                 </div>

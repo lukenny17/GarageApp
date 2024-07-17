@@ -1,6 +1,26 @@
+:root {
+    --accent-color: #047758;
+    --secondary-color: #FFD166;
+    --success-color: #28A745;
+    --info-color: #17A2B8;
+    --warning-color: #EF476F;
+    --danger-color: #DC3545;
+    --light-color: #D8FEF3;
+    --dark-color: #073B4C;
+}
+
+html {
+    height: 100%;
+}
+
 body {
     font-family: 'Nunito', sans-serif;
     padding-top: 56px;
+
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+
 }
 
 no-padding {
@@ -8,14 +28,8 @@ no-padding {
 }
   
 .custom-alert {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
-    padding: 1rem 1.25rem;
-    margin-bottom: 1rem;
-    border: 1px solid transparent;
-    border-radius: .25rem;
-    font-size: 1.5rem;
+    color: var(--accent-color);
+    background-color: var(--light-color);
   }
   
 .hero {
@@ -56,7 +70,7 @@ no-padding {
 }
 
 footer {
-    padding: 20px;
+    margin-top: auto;
 }
 
 footer a {
@@ -70,7 +84,7 @@ footer a:hover {
 .map-container {
     position: relative;
     width: 100%;
-    height: 40vh; /* 50% of the viewport height */
+    height: 40vh;
     overflow: hidden;
 }
 
@@ -132,3 +146,57 @@ footer a:hover {
 .star-rating .fa-star.checked {
     color: #ffc107;
 }
+
+.custom-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+}
+
+.custom-btn:hover {
+    background-color: #069d75;
+}
+
+// Calendar colour edits
+
+.fc .fc-event-dot {
+    background-color: var(--danger-color);
+}
+
+.fc .fc-toolbar-title {
+    color: var(--accent-color); 
+}
+
+.fc .fc-button:hover {
+    background-color: var(--accent-color); /* Change the hover background color */
+    border-color: var(--accent-color); /* Change the hover border color */
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+    background-color: var(--accent-color); /* Change the active button background color */
+    border-color: var(--accent-color); /* Change the active button border color */
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active:hover {
+    background-color: var(--accent-color); /* Change the active hover button background color */
+    border-color: var(--accent-color); /* Change the active hover button border color */
+}
+
+.fc-event .fc-event-main {
+    background-color: var(--accent-color); /* Change the color of event background */
+}
+
+.fc .fc-col-header-cell-cushion {
+    color: var(--accent-color); /* Change the color of day grid headers */
+}
+
+.fc .fc-event {
+    color: white; /* Change the text color */
+    background-color: var(--accent-color); /* Change the background color */
+    border-color: var(--accent-color); /* Change the border color */
+}
+
+.fc .fc-daygrid-day-number {
+    color: var(--accent-color);
+}
+

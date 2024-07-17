@@ -22,7 +22,7 @@
     </div>
 
     {{-- Footer --}}
-    <footer class="bg-dark text-center text-light">
+    <footer class="bg-dark text-center text-light mt-auto py-3">
         <div class="container">
             <form class="d-flex justify-content-center mb-3">
                 <input type="email" class="form-control w-25 me-2" placeholder="Enter your email" aria-label="Email">

@@ -56,7 +56,7 @@
                 {{-- <h4 class="mb-3">First-Class Auto Services</h4> --}}
                 <p>We offer a wide range of services to meet your needs. From routine maintenance to major repairs,
                     our experienced team is here to help.</p>
-                <a href="/services" class="btn btn-dark">Learn More</a>
+                <a href="/services" class="btn custom-btn">Learn More</a>
             </div>
         </div>
     </div>

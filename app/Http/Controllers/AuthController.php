@@ -23,7 +23,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:6',
         ]);
-
+    
         // Create user
         $user = User::create([
             'name' => $validated['name'],
@@ -31,16 +31,17 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
             'role' => 'customer', // Default role for registration is customer
         ]);
-
+    
         // Create a corresponding customer record
         Customer::create(['user_id' => $user->id]);
-
+    
         // Send email verification notification
         event(new Registered($user));
-
-        // Redirect to the verification notice page
-        return redirect()->route('verification.notice');
+    
+        // Redirect to the registration success page
+        return redirect()->route('registration.success');
     }
+    
 
     public function login()
     {

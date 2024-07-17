@@ -45,6 +45,11 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 // Route for submitting registration/user details details, don't need a unique name because it will be identical to view page but method name should be store
 Route::post('/register', [AuthController::class, 'store']);
 
+// Route for the registration success page
+Route::get('/registration-success', function () {
+    return view('auth.registration-success');
+})->name('registration.success');
+
 // Route for opening login page
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 

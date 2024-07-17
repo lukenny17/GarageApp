@@ -90,7 +90,7 @@
                         </div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-dark">Book Now</button>
+                            <button type="submit" class="btn custom-btn">Book Now</button>
                         </div>
                     </form>
                 </div>

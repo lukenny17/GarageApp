@@ -7,7 +7,7 @@
                 <div class="col-md-6">
                     <h2 class="mb-4 text-center">Login</h2>
                     @if (session('message'))
-                        <div class="alert alert-warning text-center">
+                        <div class="alert custom-alert text-center">
                             {{ session('message') }}
                         </div>
                     @endif
@@ -28,7 +28,7 @@
                             @enderror
                         </div>
                         <div class="btn-md text-center">
-                            <button type="submit" class="btn btn-dark">Login</button>
+                            <button type="submit" class="btn custom-btn">Login</button>
                         </div>
                     </form>
                     <hr>
