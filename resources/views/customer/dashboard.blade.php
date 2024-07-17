@@ -12,7 +12,7 @@
                 <table class="table table-striped table-fixed">
                     <thead>
                         <tr>
-                            <th>Service</th>
+                            <th>Services</th>
                             <th>Scheduled</th>
                             <th>Status</th>
                             <th></th>
@@ -21,7 +21,11 @@
                     <tbody>
                         @foreach ($bookings as $booking)
                             <tr>
-                                <td>{{ $booking->service->serviceName }}</td>
+                                <td>
+                                    @foreach ($booking->services as $service)
+                                        {{ $service->serviceName }}<br>
+                                    @endforeach
+                                </td>
                                 <td>{{ \Carbon\Carbon::parse($booking->startTime)->format('Y-m-d @ H:i') }}</td>
                                 <td>{{ $booking->status }}</td>
                                 <td class="text-end">

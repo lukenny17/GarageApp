@@ -76,7 +76,7 @@ class AdminController extends Controller
                 $query->whereBetween('startTime', [$startDate, $endDate])
                     ->orWhereRaw('DATE_ADD(startTime, INTERVAL duration HOUR) BETWEEN ? AND ?', [$startDate, $endDate]);
             })
-                ->with(['customer', 'service', 'employee', 'vehicle'])
+                ->with(['customer', 'services', 'employee', 'vehicle'])
                 ->get();
 
             // Fetch employees

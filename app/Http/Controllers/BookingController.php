@@ -27,7 +27,8 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'service_id' => 'required|exists:services,id',
+            'service_ids' => 'required|array',
+            'service_ids.*' => 'exists:services,id',
             'date' => 'required|date',
             'time' => 'required|date_format:H:i',
             'status' => 'in:scheduled,completed,cancelled'
@@ -57,16 +58,27 @@ class BookingController extends Controller
             $vehicleId = $request->vehicle_id;
         }
 
-        $service = Service::findOrFail($request->service_id);
+        $serviceIds = $request->service_ids;
+        $totalCost = 0;
+        $totalDuration = 0;
 
-        Booking::create([
+        foreach ($serviceIds as $serviceId) {
+            $service = Service::findOrFail($serviceId);
+            $totalCost += $service->cost;
+            $totalDuration += $service->duration;
+        }
+
+        $booking = Booking::create([
             'customer_id' => Auth::id(),
-            'service_id' => $request->service_id,
             'vehicle_id' => $vehicleId,
             'startTime' => $request->date . ' ' . $request->time,
-            'duration' => $service->duration,
+            'duration' => $totalDuration,
             'status' => 'scheduled',
+            'cost' => $totalCost,
         ]);
+
+        // Attach the selected services to the booking
+        $booking->services()->attach($serviceIds);
 
         return redirect()->route('bookings.confirmation');
     }

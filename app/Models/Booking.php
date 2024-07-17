@@ -12,11 +12,11 @@ class Booking extends Model
     protected $fillable = [
         'customer_id',
         'employee_id',
-        'service_id',
         'vehicle_id',
         'startTime',
         'duration',
         'status',
+        'cost',
     ];
 
     // name of method is name of table that 'Booking' has a relationship with.
@@ -32,9 +32,9 @@ class Booking extends Model
         return $this->belongsTo(User::class, 'employee_id');
     }
 
-    public function service()
+    public function services()
     {
-        return $this->belongsTo(Service::class);
+        return $this->belongsToMany(Service::class, 'booking_service');
     }
 
     public function vehicle()

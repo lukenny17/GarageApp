@@ -1,6 +1,9 @@
 @extends('shared.layout')
 
 @section('content')
+    @extends('shared.layout')
+
+@section('content')
     <section id="bookings" class="py-3">
         <div class="container">
             <div class="row justify-content-center">
@@ -19,7 +22,8 @@
                                 @else
                                     @foreach ($vehicles as $vehicle)
                                         <option value="{{ $vehicle->id }}">{{ $vehicle->make }} {{ $vehicle->model }}
-                                            ({{ $vehicle->licensePlate }})</option>
+                                            ({{ $vehicle->licensePlate }})
+                                        </option>
                                     @endforeach
                                     <option value="new">Add New Vehicle</option>
                                 @endif
@@ -61,14 +65,17 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="service_id" class="form-label">Service</label>
-                            <select class="form-select" id="service" name="service_id" required>
-                                @foreach ($services as $service)
-                                    <option value="{{ $service->id }}">{{ $service->serviceName }}:
-                                        £{{ $service->cost }}</option>
-                                @endforeach
-                            </select>
-                            @error('service_id')
+                            <label for="service_ids" class="form-label">Services</label>
+                            @foreach ($services as $service)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="service_{{ $service->id }}"
+                                        name="service_ids[]" value="{{ $service->id }}">
+                                    <label class="form-check-label" for="service_{{ $service->id }}">
+                                        {{ $service->serviceName }}: £{{ $service->cost }}
+                                    </label>
+                                </div>
+                            @endforeach
+                            @error('service_ids')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
