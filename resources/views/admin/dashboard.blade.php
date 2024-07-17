@@ -25,8 +25,7 @@
                                             <input type="date" id="endDate" name="endDate" class="form-control">
                                         </div>
                                         <div class="col-auto d-flex align-items-center mb-2">
-                                            <button type="button" id="viewBookingsButton" class="btn custom-btn">View
-                                                Bookings</button>
+                                            <button type="button" id="viewBookingsButton" class="btn custom-btn">View Bookings</button>
                                         </div>
                                     </form>
                                 </div>
@@ -63,7 +62,7 @@
                                 <thead>
                                     <tr>
                                         <th>Customer Name</th>
-                                        <th>Service Type</th>
+                                        <th>Service Type(s)</th>
                                         <th>Date/Time</th>
                                         <th>Status</th>
                                         <th>Employee</th>
@@ -87,14 +86,12 @@
                     </div>
 
                     <!-- Event Details Modal -->
-                    <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel"
-                        aria-hidden="true">
+                    <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="eventDetailsModalLabel">Booking Details</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <p id="eventTitle"></p>
@@ -165,20 +162,21 @@
 
                             result.bookings.forEach(booking => {
                                 const row = document.createElement('tr');
+                                const services = booking.services.map(service => service.serviceName).join(', ');
                                 row.innerHTML = `
-                                <td>${booking.customer.name}</td>
-                                <td>${booking.service.serviceName}</td>
-                                <td>${new Date(booking.startTime).toLocaleString()}</td>
-                                <td>${booking.status}</td>
-                                <td>
-                                    <select class="form-select assign-employee" data-booking-id="${booking.id}">
-                                        <option value="">Not Assigned</option>
-                                        ${result.employees.map(employee => `
-                                                    <option value="${employee.id}" ${booking.employee && booking.employee.id === employee.id ? 'selected' : ''}>${employee.name}</option>
-                                                `).join('')}
-                                    </select>
-                                </td>
-                            `;
+                                    <td>${booking.customer.name}</td>
+                                    <td>${services}</td>
+                                    <td>${new Date(booking.startTime).toLocaleString()}</td>
+                                    <td>${booking.status}</td>
+                                    <td>
+                                        <select class="form-select assign-employee" data-booking-id="${booking.id}">
+                                            <option value="">Not Assigned</option>
+                                            ${result.employees.map(employee => `
+                                                <option value="${employee.id}" ${booking.employee && booking.employee.id === employee.id ? 'selected' : ''}>${employee.name}</option>
+                                            `).join('')}
+                                        </select>
+                                    </td>
+                                `;
                                 bookingsTableBody.appendChild(row);
                             });
 
@@ -241,23 +239,17 @@
                     },
                     eventClick: function(info) {
                         info.jsEvent.preventDefault();
-                        document.getElementById('eventTitle').textContent = 'Service: ' + info.event
-                            .title;
-                        document.getElementById('eventStart').textContent = 'Start: ' + (info.event
-                            .start ? info.event.start.toLocaleString() : 'No start time');
-                        document.getElementById('eventEnd').textContent = 'End: ' + (info.event.end ?
-                            info.event.end.toLocaleString() : 'No end time');
-                        document.getElementById('eventStatus').textContent = 'Status: ' + info.event
-                            .extendedProps.status;
-                        document.getElementById('eventStaff').textContent = 'Assigned to: ' + info.event
-                            .extendedProps.staffName;
+                        document.getElementById('eventTitle').textContent = 'Service: ' + info.event.title;
+                        document.getElementById('eventStart').textContent = 'Start: ' + (info.event.start ? info.event.start.toLocaleString() : 'No start time');
+                        document.getElementById('eventEnd').textContent = 'End: ' + (info.event.end ? info.event.end.toLocaleString() : 'No end time');
+                        document.getElementById('eventStatus').textContent = 'Status: ' + info.event.extendedProps.status;
+                        document.getElementById('eventStaff').textContent = 'Assigned to: ' + info.event.extendedProps.staffName;
                         new bootstrap.Modal(document.getElementById('eventDetailsModal')).show();
                     },
                     events: bookings.map(booking => ({
-                        title: booking.service.serviceName,
+                        title: booking.services.map(service => service.serviceName).join(', '),
                         start: booking.startTime,
-                        end: new Date(new Date(booking.startTime).getTime() + booking.duration *
-                            60 * 60 * 1000),
+                        end: new Date(new Date(booking.startTime).getTime() + booking.duration * 60 * 60 * 1000),
                         extendedProps: {
                             status: booking.status,
                             staffName: booking.employee ? booking.employee.name : 'Not Assigned'
@@ -273,3 +265,4 @@
         });
     </script>
 @endsection
+
