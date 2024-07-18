@@ -23,6 +23,13 @@
                             @enderror
                         </div>
                         <div class="form-group mb-3">
+                            <label for="phone">Phone Number (Optional)</label>
+                            <input type="text" name="phone" class="form-control">
+                            @error('phone')
+                                <span class="d-block fs-6 text-danger mt-2"> {{ $message }} </span>
+                            @enderror
+                        </div>                       
+                        <div class="form-group mb-3">
                             <label for="password">Password</label>
                             <input type="password" name="password" class="form-control" required>
                             @error('password')

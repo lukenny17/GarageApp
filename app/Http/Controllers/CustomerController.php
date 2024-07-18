@@ -96,6 +96,20 @@ class CustomerController extends Controller
         return redirect()->route('customer.settings')->with('status', 'Email updated! Please verify your new email.');
     }
 
+    public function updatePhone(Request $request)
+    {
+        $request->validate([
+            'phone' => 'nullable|digits_between:10,15|unique:users,phone,' . Auth::id(),
+        ]);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->phone = $request->phone;
+        $user->save();
+
+        return redirect()->route('customer.settings')->with('status', 'Phone number updated!');
+    }
+
     public function updatePassword(Request $request)
     {
         $request->validate([

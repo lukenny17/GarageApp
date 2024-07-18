@@ -1,9 +1,6 @@
 @extends('shared.layout')
 
 @section('content')
-    @extends('shared.layout')
-
-@section('content')
     <section id="bookings" class="py-3">
         <div class="container">
             <div class="row justify-content-center">
@@ -69,7 +66,8 @@
                             @foreach ($services as $service)
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="service_{{ $service->id }}"
-                                        name="service_ids[]" value="{{ $service->id }}">
+                                        name="service_ids[]" value="{{ $service->id }}"
+                                        data-duration="{{ $service->duration }}">
                                     <label class="form-check-label" for="service_{{ $service->id }}">
                                         {{ $service->serviceName }}: £{{ $service->cost }}
                                     </label>
@@ -90,7 +88,11 @@
 
                         <div class="mb-3">
                             <label for="time" class="form-label">Time</label>
-                            <input type="time" class="form-control" id="time" name="time" required>
+                            <select class="form-select" id="time" name="time" required>
+                                @foreach ($timeSlots as $slot)
+                                    <option value="{{ $slot }}">{{ $slot }}</option>
+                                @endforeach
+                            </select>
                             @error('time')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -104,16 +106,5 @@
             </div>
         </div>
     </section>
-
-    <script>
-        function toggleNewVehicleFields() {
-            var vehicleSelect = document.getElementById('vehicle');
-            var newVehicleFields = document.getElementById('newVehicleFields');
-            if (vehicleSelect.value === 'new') {
-                newVehicleFields.style.display = 'block';
-            } else {
-                newVehicleFields.style.display = 'none';
-            }
-        }
-    </script>
+    <script src="{{ asset('js/booking.js') }}"></script>
 @endsection

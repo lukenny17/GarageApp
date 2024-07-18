@@ -28,6 +28,23 @@
         </div>
 
         <div class="card mb-4">
+            <div class="card-header">Update Phone Number</div>
+            <div class="card-body">
+                <form method="POST" action="{{ route('customer.updatePhone') }}">
+                    @csrf
+                    <div class="form-group mb-3">
+                        <label for="phone">New Phone Number</label>
+                        <input type="text" name="phone" class="form-control" value="{{ old('phone') }}">
+                        @error('phone')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <button type="submit" class="btn custom-btn">Update Phone Number</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4">
             <div class="card-header">Update Password</div>
             <div class="card-body">
                 <form method="POST" action="{{ route('customer.updatePassword') }}">

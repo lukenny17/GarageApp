@@ -61,7 +61,7 @@
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Customer Name</th>
+                                        <th>Customer</th>
                                         <th>Service Type(s)</th>
                                         <th>Date/Time</th>
                                         <th>Status</th>

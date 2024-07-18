@@ -22,6 +22,7 @@ class AuthController extends Controller
             'name' => 'required|min:3|max:40',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|min:6',
+            'phone' => 'nullable|digits_between:10,15',
         ]);
     
         // Create user
@@ -29,6 +30,7 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'phone' => $validated['phone'],
             'role' => 'customer', // Default role for registration is customer
         ]);
     
@@ -62,7 +64,7 @@ class AuthController extends Controller
             request()->session()->regenerate();
 
             // Redirect users to intended route (i.e., bookings if that was clicked on initially) or, by default, welcome page
-            return redirect()->intended(route('welcome'));
+            return redirect()->route('customer.dashboard');
         }
 
         // Redirect to login if unsuccessful

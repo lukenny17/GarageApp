@@ -27,6 +27,7 @@ Route::middleware(['auth', 'customer', 'verified'])->group(function () {
     Route::post('/customer/vehicles/update/{id}', [CustomerController::class, 'updateVehicle']);
     Route::get('/customer/settings', [CustomerController::class, 'settings'])->name('customer.settings');
     Route::post('/customer/update-email', [CustomerController::class, 'updateEmail'])->name('customer.updateEmail');
+    Route::post('/customer/update-phone', [CustomerController::class, 'updatePhone'])->name('customer.updatePhone');
     Route::post('/customer/update-password', [CustomerController::class, 'updatePassword'])->name('customer.updatePassword');
     Route::post('/customer/delete-account', [CustomerController::class, 'destroyAccount'])->name('customer.destroyAccount');
 });
