@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('duration', 3, 1);
             $table->enum('status', ['scheduled', 'completed', 'cancelled']);
             $table->decimal('cost', 10, 2);
+            $table->boolean('review_submitted')->default(false);
             $table->timestamps();
         });
     }

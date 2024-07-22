@@ -62,7 +62,7 @@
                                 <thead>
                                     <tr>
                                         <th>Customer</th>
-                                        <th>Service Type(s)</th>
+                                        <th>Service(s)</th>
                                         <th>Date/Time</th>
                                         <th>Status</th>
                                         <th>Employee</th>

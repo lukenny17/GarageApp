@@ -6,7 +6,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <h2 class="mb-4 text-center">Book a Service</h2>
-                    <form action="{{ route('bookings.store') }}" method="POST">
+                    <form id="booking-form" action="{{ route('bookings.store') }}" method="POST">
                         @csrf
 
                         <div class="mb-3">
@@ -19,8 +19,7 @@
                                 @else
                                     @foreach ($vehicles as $vehicle)
                                         <option value="{{ $vehicle->id }}">{{ $vehicle->make }} {{ $vehicle->model }}
-                                            ({{ $vehicle->licensePlate }})
-                                        </option>
+                                            ({{ $vehicle->licensePlate }})</option>
                                     @endforeach
                                     <option value="new">Add New Vehicle</option>
                                 @endif
@@ -106,5 +105,5 @@
             </div>
         </div>
     </section>
-    <script src="{{ asset('js/booking.js') }}"></script>
+    <script src="{{ asset('js/create_booking.js') }}"></script>
 @endsection

@@ -6,19 +6,23 @@ use App\Models\Booking;
 use App\Models\Review;
 use App\Models\Vehicle;
 use App\Models\User;
+use App\Traits\GeneratesTimeSlots;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
+    use GeneratesTimeSlots;
+
     public function dashboard()
     {
         $user = Auth::user();
-        $bookings = Booking::where('customer_id', $user->id)->get();
+        $bookings = Booking::where('customer_id', $user->id)->orderBy('startTime', 'asc')->get();
         $vehicles = Vehicle::where('user_id', $user->id)->get();
+        $timeSlots = $this->getAvailableTimeSlots();
 
-        return view('customer.dashboard', compact('bookings', 'vehicles'));
+        return view('customer.dashboard', compact('bookings', 'vehicles', 'timeSlots'));
     }
 
     public function cancelBooking($id)

@@ -6,12 +6,15 @@ use App\Models\Service;
 use App\Models\Booking;
 use App\Models\Review;
 use App\Models\Vehicle;
+use App\Traits\GeneratesTimeSlots;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
+    use GeneratesTimeSlots;
+
     public function showServices()
     {
         $services = Service::all();
@@ -123,21 +126,10 @@ class BookingController extends Controller
             'comment' => $request->comment,
         ]);
 
+        // Update the booking to mark the review as submitted
+        $booking->review_submitted = true;
+        $booking->save();
+
         return response()->json(['success' => true]);
-    }
-
-    private function getAvailableTimeSlots()
-    {
-        $startTime = Carbon::createFromTime(9, 0); // Start at 9am
-        $endTime = Carbon::createFromTime(17, 0); // End at 5pm
-        $interval = 30; // 30 minutes interval
-        $timeSlots = [];
-
-        while ($startTime->lessThanOrEqualTo($endTime)) {
-            $timeSlots[] = $startTime->format('H:i');
-            $startTime->addMinutes($interval);
-        }
-
-        return $timeSlots;
     }
 }

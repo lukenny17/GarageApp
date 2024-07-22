@@ -1,219 +1,160 @@
 @extends('shared.layout')
 
 @section('content')
-    <div class="container py-5">
-        <h2 class="mb-4 text-center">Customer Dashboard</h2>
+    <section id="customerDashboard" class="py-3">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <h2 class="mb-4 text-center">Customer Dashboard</h2>
 
-        <!-- Bookings Section -->
-        <div class="mb-4">
-            <h4>Bookings</h4>
-            <hr>
-            @if ($bookings->count() > 0)
-                <table class="table table-striped table-fixed">
-                    <thead>
-                        <tr>
-                            <th>Services</th>
-                            <th>Scheduled</th>
-                            <th>Status</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($bookings as $booking)
-                            <tr>
-                                <td>
-                                    @foreach ($booking->services as $service)
-                                        {{ $service->serviceName }}<br>
-                                    @endforeach
-                                </td>
-                                <td>{{ \Carbon\Carbon::parse($booking->startTime)->format('Y-m-d @ H:i') }}</td>
-                                <td>{{ $booking->status }}</td>
-                                <td class="text-end">
-                                    @if ($booking->status !== 'completed')
-                                        <button class="btn btn-sm btn-primary btn-reschedule-booking"
-                                            data-id="{{ $booking->id }}">Reschedule</button>
-                                        <button class="btn btn-sm btn-danger btn-cancel-booking"
-                                            data-id="{{ $booking->id }}">Cancel</button>
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <!-- Bookings Section -->
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4 class="mb-0">Bookings</h4>
+                                </div>
+                                <div class="card-body table-responsive">
+                                    @if ($bookings->count() > 0)
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 35%;">Service(s)</th>
+                                                    <th style="width: 15%;">Date/Time</th>
+                                                    <th style="width: 12.5%;">Vehicle</th>
+                                                    <th style="width: 12.5%;">Status</th>
+                                                    <th style="width: 25%;" class="text-end">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($bookings as $booking)
+                                                    <tr>
+                                                        <td>
+                                                            {{ implode(', ', $booking->services->pluck('serviceName')->toArray()) }}
+                                                        </td>
+                                                        <td>{{ \Carbon\Carbon::parse($booking->startTime)->format('Y-m-d @ H:i') }}
+                                                        </td>
+                                                        <td>{{ $booking->vehicle->make }} {{ $booking->vehicle->model }}
+                                                        </td>
+                                                        <td>{{ $booking->status }}</td>
+                                                        <td class="text-end">
+                                                            @if ($booking->status !== 'completed')
+                                                                <button
+                                                                    class="btn btn-sm btn-primary btn-reschedule-booking"
+                                                                    data-id="{{ $booking->id }}"
+                                                                    data-duration="{{ $booking->duration }}">Reschedule</button>
+                                                                <button class="btn btn-sm btn-danger btn-cancel-booking"
+                                                                    data-id="{{ $booking->id }}">Cancel</button>
+                                                            @else
+                                                                <button class="btn btn-sm btn-success btn-review-booking"
+                                                                    data-id="{{ $booking->id }}"
+                                                                    @if ($booking->review_submitted) disabled @endif>
+                                                                    @if ($booking->review_submitted)
+                                                                        Review Submitted
+                                                                    @else
+                                                                        Leave Review
+                                                                    @endif
+                                                                </button>
+                                                            @endif
+                                                            <button class="btn btn-sm btn-secondary"
+                                                                onclick="location.href='mailto:admin@example.com?subject=Query About Booking #{{ $booking->id }}'">Contact</button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     @else
-                                        <button class="btn btn-sm btn-success btn-review-booking"
-                                            data-id="{{ $booking->id }}"
-                                            @if ($booking->review_submitted) disabled @endif>Leave Review</button>
+                                        <div class="d-flex justify-content-center">
+                                            <div class="alert alert-warning text-center">
+                                                {{ Auth::user()->name }} has no bookings.
+                                            </div>
+                                        </div>
                                     @endif
-                                    <button class="btn btn-sm btn-secondary"
-                                        onclick="location.href='mailto:admin@example.com?subject=Query About Booking #{{ $booking->id }}'">Contact</button>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                <div class="d-flex justify-content-center">
-                    <div class="alert alert-warning text-center">
-                        {{ Auth::user()->name }} has no bookings.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <!-- Vehicles Section -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="mb-0">Vehicles</h4>
+                                </div>
+                                <div class="card-body table-responsive">
+                                    @if ($vehicles->count() > 0)
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 25%;">Make</th>
+                                                    <th style="width: 25%;">Model</th>
+                                                    <th style="width: 25%;">License Plate</th>
+                                                    <th style="width: 25%;" class="text-end">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($vehicles as $vehicle)
+                                                    <tr>
+                                                        <td> {{ $vehicle->make }} </td>
+                                                        <td> {{ $vehicle->model }} </td>
+                                                        <td>{{ $vehicle->licensePlate }}</td>
+                                                        <td class="text-end">
+                                                            <button class="btn btn-sm btn-warning btn-edit-vehicle"
+                                                                data-id="{{ $vehicle->id }}">Edit</button>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    @else
+                                        <div class="d-flex justify-content-center">
+                                            <div class="alert alert-warning text-center">
+                                                {{ Auth::user()->name }} has no vehicles registered with this account.
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Link -->
+                    <div class="mb-4 text-center">
+                        <a href="{{ route('customer.settings') }}" class="btn custom-btn">
+                            <span>Edit Profile</span>
+                        </a>
                     </div>
                 </div>
-            @endif
-        </div>
-
-        <!-- Vehicles Section -->
-        <div class="mb-4">
-            <h4>Vehicles</h4>
-            <hr>
-            @if ($vehicles->count() > 0)
-                <table class="table table-striped table-fixed">
-                    <thead>
-                        <tr>
-                            <th>Make</th>
-                            <th>Model</th>
-                            <th>License Plate</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($vehicles as $vehicle)
-                            <tr>
-                                <td> {{ $vehicle->make }} </td>
-                                <td> {{ $vehicle->model }} </td>
-                                <td>{{ $vehicle->licensePlate }}</td>
-                                <td class="text-end"><button class="btn btn-sm btn-warning btn-edit-vehicle"
-                                        data-id="{{ $vehicle->id }}">Edit</button></td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                <div class="d-flex justify-content-center">
-                    <div class="alert alert-warning text-center">
-                        {{ Auth::user()->name }} has no vehicles registered with this account.
-                    </div>
-                </div>
-            @endif
-        </div>
-
-        <!-- Settings Link -->
-        <div class="mb-4 text-center">
-            <a href="{{ route('customer.settings') }}" class="btn custom-btn">
-                <span>Edit Profile</span>
-                {{-- <i class="fas fa-cog"></i> --}}
-            </a>
+            </div>
         </div>
 
         <!-- Modals -->
-        <!-- Reschedule Booking Modal -->
-        <div class="modal fade" id="rescheduleBookingModal" tabindex="-1" aria-labelledby="rescheduleBookingModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <form id="reschedule-booking-form">
-                    @csrf
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="rescheduleBookingModalLabel">Reschedule Booking</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="reschedule-date" class="form-label">Date</label>
-                                <input type="date" class="form-control" id="reschedule-date" name="date" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="reschedule-time" class="form-label">Time</label>
-                                <input type="time" class="form-control" id="reschedule-time" name="time" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+        @include('customer.reschedule_modal')
+        @include('customer.review_modal')
+        @include('customer.edit_vehicle_modal')
+        @include('customer.cancel_confirmation_modal')
 
-        <!-- Review Booking Modal -->
-        <div class="modal fade" id="reviewBookingModal" tabindex="-1" aria-labelledby="reviewBookingModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <form id="review-booking-form">
-                    @csrf
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="reviewBookingModalLabel">Leave a Review</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="rating" class="form-label">Rating</label>
-                                <div class="star-rating">
-                                    <input type="hidden" name="rating" id="rating" required>
-                                    <i class="fas fa-star" data-value="1"></i>
-                                    <i class="fas fa-star" data-value="2"></i>
-                                    <i class="fas fa-star" data-value="3"></i>
-                                    <i class="fas fa-star" data-value="4"></i>
-                                    <i class="fas fa-star" data-value="5"></i>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="comment" class="form-label">Comment</label>
-                                <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary btn-submit-review">Submit Review</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Edit Vehicle Modal -->
-        <div class="modal fade" id="editVehicleModal" tabindex="-1" aria-labelledby="editVehicleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <form id="edit-vehicle-form">
-                    @csrf
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editVehicleModalLabel">Edit Vehicle</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="make" class="form-label">Make</label>
-                                <input type="text" class="form-control" id="make" name="make" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="model" class="form-label">Model</label>
-                                <input type="text" class="form-control" id="model" name="model" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="year" class="form-label">Year</label>
-                                <input type="number" class="form-control" id="year" name="year" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="licensePlate" class="form-label">License Plate</label>
-                                <input type="text" class="form-control" id="licensePlate" name="licensePlate"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    </section>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+            let cancelBookingId = null;
+
             // Cancel Booking
             document.querySelectorAll('.btn-cancel-booking').forEach(button => {
                 button.addEventListener('click', function() {
-                    const bookingId = this.getAttribute('data-id');
-                    fetch(`/customer/bookings/cancel/${bookingId}`, {
+                    cancelBookingId = this.getAttribute('data-id');
+                    const cancelModal = new bootstrap.Modal(document.getElementById(
+                        'cancelConfirmationModal'));
+                    cancelModal.show();
+                });
+            });
+
+            document.getElementById('confirmCancelBooking').addEventListener('click', function() {
+                if (cancelBookingId) {
+                    fetch(`/customer/bookings/cancel/${cancelBookingId}`, {
                         method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -223,15 +164,19 @@
                             location.reload();
                         }
                     });
-                });
+                }
             });
 
             // Reschedule Booking
             document.querySelectorAll('.btn-reschedule-booking').forEach(button => {
                 button.addEventListener('click', function() {
                     const bookingId = this.getAttribute('data-id');
+                    const bookingDuration = this.getAttribute('data-duration');
                     document.getElementById('reschedule-booking-form').setAttribute('data-id',
                         bookingId);
+                    document.getElementById('reschedule-booking-form').setAttribute('data-duration',
+                        bookingDuration);
+                    updateRescheduleTimes(bookingDuration);
                     new bootstrap.Modal(document.getElementById('rescheduleBookingModal')).show();
                 });
             });
@@ -255,7 +200,6 @@
                 });
             });
 
-            // Leave Review
             // Star rating system
             const stars = document.querySelectorAll('.star-rating .fa-star');
             const ratingInput = document.getElementById('rating');
@@ -280,7 +224,9 @@
                     const bookingId = this.getAttribute('data-id');
                     document.getElementById('review-booking-form').setAttribute('data-id',
                         bookingId);
-                    new bootstrap.Modal(document.getElementById('reviewBookingModal')).show();
+                    const reviewModal = new bootstrap.Modal(document.getElementById(
+                        'reviewBookingModal'));
+                    reviewModal.show();
                 });
             });
 
@@ -288,21 +234,24 @@
                 e.preventDefault();
                 const bookingId = this.getAttribute('data-id');
                 const formData = new FormData(this);
+
                 fetch(`/customer/bookings/review/${bookingId}`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: formData
-                }).then(response => response.json()).then(data => {
-                    if (data.success) {
-                        // Disable the submit button
-                        document.querySelector('.btn-review-booking[data-id="' + bookingId + '"]')
-                            .disabled = true;
-                        new bootstrap.Modal(document.getElementById('reviewBookingModal')).hide();
-                        location.reload();
-                    }
-                });
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Close the modal
+                            const reviewModal = bootstrap.Modal.getInstance(document.getElementById(
+                                'reviewBookingModal'));
+                            reviewModal.hide();
+                            location.reload();
+                        }
+                    });
             });
 
             // Edit Vehicle
@@ -344,6 +293,44 @@
                     }
                 });
             });
+
+            // Function to update available reschedule times
+            function updateRescheduleTimes(duration) {
+                const timeSelect = document.getElementById('reschedule-time');
+                const dateInput = document.getElementById('reschedule-date');
+                const originalOptions = Array.from(timeSelect.options);
+
+                dateInput.addEventListener('input', function() {
+                    const selectedDate = new Date(dateInput.value);
+                    const day = selectedDate.getDay();
+                    if (day === 0 || day === 6) { // 0 = Sunday, 6 = Saturday
+                        alert('Please select a weekday.');
+                        dateInput.value = '';
+                        return;
+                    }
+
+                    const endTime = new Date();
+                    endTime.setHours(17, 0, 0, 0); // 5pm
+
+                    timeSelect.innerHTML = '';
+
+                    originalOptions.forEach(function(option) {
+                        const startTime = new Date();
+                        const [hours, minutes] = option.value.split(':');
+                        startTime.setHours(hours, minutes, 0, 0);
+
+                        const endTimeWithService = new Date(startTime.getTime() + duration * 60 *
+                            60 * 1000);
+
+                        if (endTimeWithService <= endTime) {
+                            timeSelect.add(option.cloneNode(true));
+                        }
+                    });
+                });
+
+                dateInput.dispatchEvent(new Event(
+                    'input')); // Trigger the date input event to update times initially
+            }
         });
     </script>
 @endsection

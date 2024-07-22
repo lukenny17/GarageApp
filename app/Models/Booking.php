@@ -17,6 +17,7 @@ class Booking extends Model
         'duration',
         'status',
         'cost',
+        'review_submitted',
     ];
 
     // name of method is name of table that 'Booking' has a relationship with.
