@@ -20,4 +20,9 @@ class Service extends Model
     {
         return $this->belongsToMany(Booking::class, 'booking_service');
     }
+
+    public function pendingBookings()
+    {
+        return $this->belongsToMany(Booking::class, 'pending_booking_service');
+    }
 }

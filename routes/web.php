@@ -32,12 +32,19 @@ Route::middleware(['auth', 'customer', 'verified'])->group(function () {
     Route::post('/customer/delete-account', [CustomerController::class, 'destroyAccount'])->name('customer.destroyAccount');
 });
 
+// Route for customer to approve updates to services (recommended by employee)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/bookings/{id}/approve', [BookingController::class, 'approveServiceUpdate'])->name('bookings.approveServiceUpdate');
+    Route::get('/bookings/{id}/reject', [BookingController::class, 'rejectServiceUpdate'])->name('bookings.rejectServiceUpdate');
+});
+
 // Employee Dashboard
 Route::middleware(['auth', 'employee'])->group(function () {
     Route::get('/employee', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
     Route::post('/employee/bookings/toggle-status/{id}', [EmployeeController::class, 'toggleBookingStatus']);
     Route::get('/employee/bookings/{id}/services', [EmployeeController::class, 'editServices'])->name('employee.bookings.services');
     Route::post('/employee/bookings/{id}/services', [EmployeeController::class, 'updateServices'])->name('employee.bookings.updateServices');
+    Route::post('/employee/bookings/{id}/update-status', [EmployeeController::class, 'updateBookingStatus']);
 });
 
 // Route for creating a booking, model_name.action_name
@@ -45,11 +52,6 @@ Route::middleware(['customer', 'verified'])->group(function () {
     Route::get('/bookings', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::get('/bookings/confirmation', [BookingController::class, 'confirmation'])->name('bookings.confirmation');
-});
-
-// Route for customer to approve updates to services (recommended by employee)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/bookings/{id}/approve', [BookingController::class, 'approveServiceUpdate'])->name('bookings.approveServiceUpdate');
 });
 
 // Route for opening registration page

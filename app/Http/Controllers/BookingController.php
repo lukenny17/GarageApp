@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Mail\ServiceUpdateApproval;
 use App\Models\Service;
 use App\Models\Booking;
+use App\Models\PendingBookingService;
 use App\Models\Review;
 use App\Models\Vehicle;
 use App\Traits\GeneratesTimeSlots;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
@@ -139,10 +141,27 @@ class BookingController extends Controller
     {
         $booking = Booking::findOrFail($id);
 
-        // Update the booking status or any other necessary fields
-        $booking->status = 'scheduled';
-        $booking->save();
+        // Detach all existing services
+        $booking->services()->detach();
+
+        // Move pending services to actual services
+        foreach ($booking->pendingServices as $pendingService) {
+            $booking->services()->attach($pendingService->service_id);
+        }
+
+        // Clear pending services
+        $booking->pendingServices()->delete();
 
         return redirect()->route('customer.dashboard')->with('success', 'Service update approved successfully.');
+    }
+
+    public function rejectServiceUpdate($id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        // Clear pending services without moving them to actual services
+        $booking->pendingServices()->delete();
+
+        return redirect()->route('customer.dashboard')->with('success', 'Service update rejected successfully.');
     }
 }

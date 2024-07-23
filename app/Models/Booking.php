@@ -42,4 +42,9 @@ class Booking extends Model
     {
         return $this->belongsTo(Vehicle::class);
     }
+
+    public function pendingServices()
+    {
+        return $this->hasMany(PendingBookingService::class);
+    }
 }

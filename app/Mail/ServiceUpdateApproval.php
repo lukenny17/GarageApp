@@ -41,6 +41,7 @@ class ServiceUpdateApproval extends Mailable
     {
         return new Content(
             view: 'emails.service_update_approval',
+            with: ['booking' => $this->booking],
         );
     }
 
