@@ -144,4 +144,5 @@ class CustomerController extends Controller
 
         return redirect('/')->with('status', 'Account deleted successfully.');
     }
+
 }

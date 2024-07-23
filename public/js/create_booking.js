@@ -65,6 +65,10 @@ document.addEventListener('DOMContentLoaded', function () {
         var dd = String(tomorrow.getDate()).padStart(2, '0');
         dateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
     }
+
+    // Initialise the booking form
+    initBookingForm('#date', '#time', '.form-check-input');
+
 });
 
 function toggleNewVehicleFields() {
@@ -75,4 +79,5 @@ function toggleNewVehicleFields() {
     } else {
         newVehicleFields.style.display = 'none';
     }
+
 }

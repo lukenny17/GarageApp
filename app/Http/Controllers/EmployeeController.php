@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ServiceUpdateApproval;
 use App\Models\Booking;
+use App\Models\PendingBookingService;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,15 @@ class EmployeeController extends Controller
         return view('employee.partials.services_checkboxes', compact('services', 'selectedServices', 'booking'));
     }
 
+    public function updateBookingStatus(Request $request, $id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->status = $request->input('status');
+        $booking->save();
+
+        return response()->json(['success' => true]);
+    }
+
     public function updateServices(Request $request, $id)
     {
         $booking = Booking::findOrFail($id);
@@ -46,14 +56,22 @@ class EmployeeController extends Controller
             'service_ids.*' => 'exists:services,id',
         ]);
 
-        // Update the services
-        $serviceIds = $request->service_ids;
-        $booking->services()->sync($serviceIds);
+        // Store pending service updates
+        PendingBookingService::where('booking_id', $booking->id)->delete(); // Clear existing pending changes
+
+        foreach ($request->service_ids as $serviceId) {
+            PendingBookingService::create([
+                'booking_id' => $booking->id,
+                'service_id' => $serviceId,
+            ]);
+        }
+
+        // Refresh the booking model to include the latest pending services
+        $booking->load('pendingServices');
 
         // Send email to customer for approval
         Mail::to($booking->customer->email)->send(new ServiceUpdateApproval($booking));
 
         return response()->json(['success' => true, 'message' => 'Service update email sent to customer for approval.']);
     }
-
 }
