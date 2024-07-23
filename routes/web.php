@@ -5,10 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
@@ -32,6 +32,14 @@ Route::middleware(['auth', 'customer', 'verified'])->group(function () {
     Route::post('/customer/delete-account', [CustomerController::class, 'destroyAccount'])->name('customer.destroyAccount');
 });
 
+// Employee Dashboard
+Route::middleware(['auth', 'employee'])->group(function () {
+    Route::get('/employee', [EmployeeController::class, 'dashboard'])->name('employee.dashboard');
+    Route::post('/employee/bookings/toggle-status/{id}', [EmployeeController::class, 'toggleBookingStatus']);
+    Route::get('/employee/bookings/{id}/services', [EmployeeController::class, 'editServices'])->name('employee.bookings.services');
+    Route::post('/employee/bookings/{id}/services', [EmployeeController::class, 'updateServices'])->name('employee.bookings.updateServices');
+});
+
 // Route for creating a booking, model_name.action_name
 Route::middleware(['customer', 'verified'])->group(function () {
     Route::get('/bookings', [BookingController::class, 'create'])->name('bookings.create');
@@ -39,6 +47,10 @@ Route::middleware(['customer', 'verified'])->group(function () {
     Route::get('/bookings/confirmation', [BookingController::class, 'confirmation'])->name('bookings.confirmation');
 });
 
+// Route for customer to approve updates to services (recommended by employee)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/bookings/{id}/approve', [BookingController::class, 'approveServiceUpdate'])->name('bookings.approveServiceUpdate');
+});
 
 // Route for opening registration page
 Route::get('/register', [AuthController::class, 'register'])->name('register');

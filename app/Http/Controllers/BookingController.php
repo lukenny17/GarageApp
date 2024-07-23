@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ServiceUpdateApproval;
 use App\Models\Service;
 use App\Models\Booking;
 use App\Models\Review;
@@ -10,6 +11,7 @@ use App\Traits\GeneratesTimeSlots;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -131,5 +133,16 @@ class BookingController extends Controller
         $booking->save();
 
         return response()->json(['success' => true]);
+    }
+
+    public function approveServiceUpdate($id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        // Update the booking status or any other necessary fields
+        $booking->status = 'scheduled';
+        $booking->save();
+
+        return redirect()->route('customer.dashboard')->with('success', 'Service update approved successfully.');
     }
 }
