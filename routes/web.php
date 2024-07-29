@@ -1,20 +1,16 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ServiceController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
-
 Route::get('/about', [WelcomeController::class, 'about'])->name('about');
-
 Route::get('/services', [BookingController::class, 'showServices'])->name('services');
 
 // Customer Dashboard
@@ -54,45 +50,6 @@ Route::middleware(['customer', 'verified'])->group(function () {
     Route::get('/bookings/confirmation', [BookingController::class, 'confirmation'])->name('bookings.confirmation');
 });
 
-// Route for opening registration page
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-
-// Route for submitting registration/user details details, don't need a unique name because it will be identical to view page but method name should be store
-Route::post('/register', [AuthController::class, 'store']);
-
-// Route for the registration success page
-Route::get('/registration-success', function () {
-    return view('auth.registration-success');
-})->name('registration.success');
-
-// Route for opening login page
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-
-// Route for authenticating login details
-Route::post('/login', [AuthController::class, 'authenticate']);
-
-// Route for logging out
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-Route::middleware('auth')->group(function () {
-    // Displays the email verification notice to users who have registered but not yet verified their email addresses
-    Route::get('/email/verify', function () {
-        return view('auth.verify-email');
-    })->name('verification.notice');
-
-    // Handles the actual verification of the email address when the user clicks the verification link sent to their email
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-        return redirect('/login');
-    })->middleware('signed')->name('verification.verify');
-
-    // Allows users to request a new verification email if they haven't received the original one
-    Route::post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-        return back()->with('message', 'Verification link sent!');
-    })->middleware('throttle:6,1')->name('verification.send');
-});
-
 // Route for accessing admin dashboard
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
@@ -103,3 +60,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/addService', [ServiceController::class, 'showAddServiceForm'])->name('admin.addServiceForm');
     Route::post('/admin/addService', [ServiceController::class, 'storeService'])->name('admin.storeService');
 });
+
+// Route for profile management - added with Laravel Breeze
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
+
+require __DIR__.'/auth.php';

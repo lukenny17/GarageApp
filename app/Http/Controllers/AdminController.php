@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Employee;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -55,6 +56,8 @@ class AdminController extends Controller
                 Administrator::create(['user_id' => $user->id]);
                 break;
         }
+
+        event(new Registered($user));
 
         // Redirect back to the admin dashboard with a success message
         return redirect()->route('admin.dashboard')->with('success', 'User created successfully.');
