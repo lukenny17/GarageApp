@@ -16,8 +16,8 @@ Route::get('/services', [BookingController::class, 'showServices'])->name('servi
 // Customer Dashboard
 Route::middleware(['auth', 'customer', 'verified'])->group(function () {
     Route::get('/customer', [CustomerController::class, 'dashboard'])->name('customer.dashboard');
-    Route::post('/customer/bookings/cancel/{id}', [CustomerController::class, 'cancelBooking']);
-    Route::post('/customer/bookings/reschedule/{id}', [CustomerController::class, 'rescheduleBooking']);
+    Route::post('/customer/bookings/cancel/{id}', [CustomerController::class, 'cancelBooking'])->name('customer.bookings.cancel');
+    Route::post('/customer/bookings/reschedule/{id}', [CustomerController::class, 'rescheduleBooking'])->name('customer.bookings.reschedule');
     Route::post('/customer/bookings/review/{id}', [CustomerController::class, 'leaveReview'])->name('bookings.review');
     Route::get('/customer/vehicles/{id}', [CustomerController::class, 'getVehicle']);
     Route::post('/customer/vehicles/update/{id}', [CustomerController::class, 'updateVehicle']);

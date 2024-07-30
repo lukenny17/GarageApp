@@ -10,6 +10,16 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="card mb-4">
             <div class="card-header">Update Email</div>
             <div class="card-body">
@@ -77,7 +87,9 @@
             <div class="card-body">
                 <form method="POST" action="{{ route('customer.destroyAccount') }}">
                     @csrf
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">Delete Account</button>
+                    <button type="submit" class="btn btn-danger"
+                        onclick="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">Delete
+                        Account</button>
                 </form>
             </div>
         </div>

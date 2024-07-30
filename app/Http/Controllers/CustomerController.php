@@ -135,13 +135,20 @@ class CustomerController extends Controller
 
     public function destroyAccount(Request $request)
     {
+        $request->validate([
+            'password' => 'required',
+        ]);
+
         /** @var \App\Models\User $user */
         $user = Auth::user();
+
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'The provided password does not match our records.']);
+        }
 
         Auth::logout();
         $user->delete();
 
         return redirect('/')->with('status', 'Account deleted successfully.');
     }
-
 }
