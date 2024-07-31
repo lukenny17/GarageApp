@@ -16,6 +16,7 @@
                     <li>{{ $service->serviceName }}</li>
                 @endforeach
             </ul>
+            <p class="email-body"><strong>Total Cost:</strong> ${{ number_format($booking->services->sum('cost'), 2) }}</p>
 
             <h3 class="email-subheader">Proposed Services:</h3>
             <ul class="email-body">
@@ -23,6 +24,7 @@
                     <li>{{ $pendingService->service->serviceName }}</li>
                 @endforeach
             </ul>
+            <p class="email-body"><strong>Total Proposed Cost:</strong> ${{ number_format($booking->pendingServices->sum(fn($pendingService) => $pendingService->service->cost), 2) }}</p>
         </div>
 
         <p class="email-body">

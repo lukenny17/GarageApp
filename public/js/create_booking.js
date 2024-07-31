@@ -81,3 +81,26 @@ function toggleNewVehicleFields() {
     }
 
 }
+
+// For admin booking creation
+
+function loadCustomerVehicles() {
+    const customerId = document.getElementById('customer_id').value;
+    const vehicleSelect = document.getElementById('vehicle');
+
+    if (customerId) {
+        fetch(`/admin/customers/${customerId}/vehicles`)
+            .then(response => response.json())
+            .then(data => {
+                vehicleSelect.innerHTML = '<option value="">Select Vehicle</option>';
+                data.vehicles.forEach(vehicle => {
+                    vehicleSelect.innerHTML +=
+                        `<option value="${vehicle.id}">${vehicle.make} ${vehicle.model} (${vehicle.licensePlate})</option>`;
+                });
+                vehicleSelect.innerHTML += '<option value="new">Add New Vehicle</option>';
+            });
+    } else {
+        vehicleSelect.innerHTML =
+            '<option value="">Select Vehicle</option><option value="new">Add New Vehicle</option>';
+    }
+}

@@ -8,7 +8,7 @@
                     <h2 class="mb-4 text-center">Admin Dashboard</h2>
 
                     <div class="row mb-4">
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <!-- Booking Filters -->
                             <div class="card">
                                 <div class="card-header">
@@ -31,15 +31,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <!-- Create New User Button -->
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="mb-0">Actions</h4>
                                 </div>
                                 <div class="card-body text-center">
-                                    <a href="{{ route('admin.createUserForm') }}" class="btn custom-btn mb-2">Create New User</a>
-                                    <a href="{{ route('admin.addServiceForm') }}" class="btn custom-btn mb-2">Add New Service</a>
+                                    <a href="{{ route('admin.createUserForm') }}" class="btn custom-btn mb-2">Create User</a>
+                                    <a href="{{ route('admin.addServiceForm') }}" class="btn custom-btn mb-2">Add Service</a>
+                                    <a href="{{ route('admin.editServiceForm') }}" class="btn custom-btn mb-2">Edit / Delete Service</a>
+                                    <a href="{{ route('admin.createBookingForm') }}" class="btn custom-btn mb-2">Create Booking</a>
                                 </div>
                             </div>
                         </div>

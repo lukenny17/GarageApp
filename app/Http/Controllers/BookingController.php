@@ -6,6 +6,7 @@ use App\Mail\BookingConfirmationMail;
 use App\Models\Service;
 use App\Models\Booking;
 use App\Models\Review;
+use App\Models\User;
 use App\Models\Vehicle;
 use App\Traits\GeneratesTimeSlots;
 use Illuminate\Http\Request;
@@ -25,10 +26,16 @@ class BookingController extends Controller
     public function create()
     {
         $services = Service::all();
-        $vehicles = Auth::user()->vehicles;
         $timeSlots = $this->getAvailableTimeSlots();
 
-        return view('bookings.create', compact('services', 'vehicles', 'timeSlots'));
+        if (Auth::user()->role == 'admin') {
+            $customers = User::where('role', 'customer')->get();
+            $vehicles = Vehicle::all();
+            return view('admin.createBooking', compact('services', 'vehicles', 'timeSlots', 'customers'));
+        } else {
+            $vehicles = Auth::user()->vehicles;
+            return view('bookings.create', compact('services', 'vehicles', 'timeSlots'));
+        }
     }
 
     public function store(Request $request)
@@ -50,11 +57,15 @@ class BookingController extends Controller
             $rules['vehicle_id'] = 'required|exists:vehicles,id';
         }
 
+        if (Auth::user()->role == 'admin') {
+            $rules['customer_id'] = 'required|exists:users,id';
+        }
+
         $request->validate($rules);
 
         if ($request->vehicle_id === 'new') {
             $vehicle = Vehicle::create([
-                'user_id' => Auth::id(),
+                'user_id' => Auth::user()->role == 'admin' ? $request->customer_id : Auth::id(),
                 'make' => $request->make,
                 'model' => $request->model,
                 'year' => $request->year,
@@ -76,7 +87,7 @@ class BookingController extends Controller
         }
 
         $booking = Booking::create([
-            'customer_id' => Auth::id(),
+            'customer_id' => Auth::user()->role == 'admin' ? $request->customer_id : Auth::id(),
             'vehicle_id' => $vehicleId,
             'startTime' => $request->date . ' ' . $request->time,
             'duration' => $totalDuration,
@@ -90,7 +101,7 @@ class BookingController extends Controller
         // Send email to booking confirming booking
         Mail::to($booking->customer->email)->send(new BookingConfirmationMail($booking));
 
-        return redirect()->route('bookings.confirmation');
+        return Auth::user()->role == 'admin' ? redirect()->route('admin.dashboard')->with('success', 'Booking created successfully.') : redirect()->route('bookings.confirmation');
     }
 
     public function confirmation()
@@ -163,5 +174,13 @@ class BookingController extends Controller
         $booking->pendingServices()->delete();
 
         return redirect()->route('customer.dashboard')->with('success', 'Service update rejected successfully.');
+    }
+
+    public function getCustomerVehicles($customerId)
+    {
+        $customer = User::findOrFail($customerId);
+        $vehicles = $customer->vehicles;
+
+        return response()->json(['vehicles' => $vehicles]);
     }
 }

@@ -125,6 +125,30 @@ footer a:hover {
     width: 100%;
 }
 
+
+/* Vertical alignment for table cells */
+.table td, .table th {
+    vertical-align: middle;
+}
+
+/* Custom CSS for buttons */
+@media (max-width: 768px) {
+    .action-buttons .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0 !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .action-buttons .btn {
+        display: inline-block;
+        width: auto;
+        margin-right: 5px !important;
+        margin-bottom: 0 !important;
+    }
+}
 // to fix width of customer dashboard columns
 .table-fixed {
     table-layout: fixed;

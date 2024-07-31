@@ -25,7 +25,11 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withSchedule(function (Schedule $schedule) {
-        // Schedule the reminders:send command to run every five minutes for testing
+        // Scheduled the reminders:send command to run at 9am each day
+        // Run php artisan queue:work and php artisan schedule:run (in separate terminals, in that order) to fetch and send email reminders with higher frequency to test.
+        // Emails will only be queued when the scheduled command runs (at 9am). Command queries database for bookings and queues emails to be sent.
+        // If schedule:run is manually run, checks if the right time to run the command - if not, command wont be executed and no emails will be queued
         $schedule->command('reminders:send')->dailyAt('09:00');
     })
     ->create();
+

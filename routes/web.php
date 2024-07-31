@@ -58,7 +58,15 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/assign-employee', [AdminController::class, 'assignEmployee'])->name('admin.assignEmployee');
     Route::get('/admin/addService', [ServiceController::class, 'showAddServiceForm'])->name('admin.addServiceForm');
     Route::post('/admin/addService', [ServiceController::class, 'storeService'])->name('admin.storeService');
+    Route::get('/admin/editService', [ServiceController::class, 'editServiceForm'])->name('admin.editServiceForm');
+    Route::get('/admin/getService/{id}', [ServiceController::class, 'getService'])->name('admin.getService');
+    Route::put('/admin/update-service/{id}', [ServiceController::class, 'updateService'])->name('admin.updateService');
+    Route::delete('/admin/delete-service/{id}', [ServiceController::class, 'deleteService'])->name('admin.deleteService');
+    Route::get('/admin/create-booking', [BookingController::class, 'create'])->name('admin.createBookingForm');
+    Route::post('/admin/store-booking', [BookingController::class, 'store'])->name('admin.storeBooking');
+    Route::get('/admin/customers/{customerId}/vehicles', [BookingController::class, 'getCustomerVehicles']);
 });
+
 
 // Route for profile management - added with Laravel Breeze
 
@@ -68,4 +76,4 @@ Route::middleware(['auth', 'admin'])->group(function () {
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

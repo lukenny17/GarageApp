@@ -37,16 +37,18 @@
                                                         <td>{{ $booking->vehicle->make }} {{ $booking->vehicle->model }}
                                                         </td>
                                                         <td>{{ $booking->status }}</td>
-                                                        <td class="text-end">
+                                                        <td class="text-end action-buttons">
                                                             @if ($booking->status !== 'completed')
                                                                 <button
-                                                                    class="btn btn-sm btn-primary btn-reschedule-booking"
+                                                                    class="btn btn-sm btn-primary btn-reschedule-booking reschedule-button mb-2 mb-md-0 me-md-2"
                                                                     data-id="{{ $booking->id }}"
                                                                     data-duration="{{ $booking->duration }}">Reschedule</button>
-                                                                <button class="btn btn-sm btn-danger btn-cancel-booking"
+                                                                <button
+                                                                    class="btn btn-sm btn-danger btn-cancel-booking cancel-button mb-2 mb-md-0 me-md-2"
                                                                     data-id="{{ $booking->id }}">Cancel</button>
                                                             @else
-                                                                <button class="btn btn-sm btn-success btn-review-booking"
+                                                                <button
+                                                                    class="btn btn-sm btn-success btn-review-booking review-button mb-2 mb-md-0 me-md-2"
                                                                     data-id="{{ $booking->id }}"
                                                                     @if ($booking->review_submitted) disabled @endif>
                                                                     @if ($booking->review_submitted)
@@ -56,7 +58,8 @@
                                                                     @endif
                                                                 </button>
                                                             @endif
-                                                            <button class="btn btn-sm btn-secondary"
+                                                            <button
+                                                                class="btn btn-sm btn-secondary contact-button mb-2 mb-md-0"
                                                                 onclick="location.href='mailto:admin@example.com?subject=Query About Booking #{{ $booking->id }}'">Contact</button>
                                                         </td>
                                                     </tr>
