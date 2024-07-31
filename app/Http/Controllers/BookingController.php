@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\ServiceUpdateApproval;
+use App\Mail\BookingConfirmationMail;
 use App\Models\Service;
 use App\Models\Booking;
-use App\Models\PendingBookingService;
 use App\Models\Review;
 use App\Models\Vehicle;
 use App\Traits\GeneratesTimeSlots;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
@@ -89,6 +86,9 @@ class BookingController extends Controller
 
         // Attach the selected services to the booking
         $booking->services()->attach($serviceIds);
+
+        // Send email to booking confirming booking
+        Mail::to($booking->customer->email)->send(new BookingConfirmationMail($booking));
 
         return redirect()->route('bookings.confirmation');
     }

@@ -1,36 +1,33 @@
-<!DOCTYPE html>
-<html>
+@extends('shared/email')
 
-<head>
-    <title>Service Update Approval</title>
-</head>
+@section('content')
+    <div class="email-container">
+        <h1 class="email-header">Service Update Approval</h1>
+        <p class="email-body">Dear {{ $booking->customer->name }},</p>
+        <p class="email-body">An update to your booking services has been proposed. Please review and approve or reject the changes.</p>
 
-<body>
-    <h1>Service Update Approval</h1>
-    <p>Dear {{ $booking->customer->name }},</p>
-    <p>An update to your booking services has been proposed. Please review and approve or reject the changes.</p>
+        <div class="email-content">
+            <h3 class="email-subheader">Booking Details:</h3>
+            <p class="email-body"><strong>Date/Time:</strong> {{ \Carbon\Carbon::parse($booking->startTime)->format('Y-m-d @ H:i') }}</p>
 
-    <h3>Booking Details:</h3>
-    <p><strong>Date/Time:</strong> {{ \Carbon\Carbon::parse($booking->startTime)->format('Y-m-d @ H:i') }}</p>
+            <h3 class="email-subheader">Existing Services:</h3>
+            <ul class="email-body">
+                @foreach ($booking->services as $service)
+                    <li>{{ $service->serviceName }}</li>
+                @endforeach
+            </ul>
 
-    <h3>Existing Services:</h3>
-    <ul>
-        @foreach ($booking->services as $service)
-            <li>{{ $service->serviceName }}</li>
-        @endforeach
-    </ul>
+            <h3 class="email-subheader">Proposed Services:</h3>
+            <ul class="email-body">
+                @foreach ($booking->pendingServices as $pendingService)
+                    <li>{{ $pendingService->service->serviceName }}</li>
+                @endforeach
+            </ul>
+        </div>
 
-    <h3>Proposed Services:</h3>
-    <ul>
-        @foreach ($booking->pendingServices as $pendingService)
-            <li>{{ $pendingService->service->serviceName }}</li>
-        @endforeach
-    </ul>
-
-    <p>
-        <a href="{{ route('bookings.approveServiceUpdate', $booking->id) }}">Approve</a> |
-        <a href="{{ route('bookings.rejectServiceUpdate', $booking->id) }}">Reject</a>
-    </p>
-</body>
-
-</html>
+        <p class="email-body">
+            <a href="{{ route('bookings.approveServiceUpdate', $booking->id) }}" class="btn btn-success">Approve</a> |
+            <a href="{{ route('bookings.rejectServiceUpdate', $booking->id) }}" class="btn btn-danger">Reject</a>
+        </p>
+    </div>
+@endsection

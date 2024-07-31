@@ -13,21 +13,15 @@
 </head>
 
 <body>
-    {{-- Navbar contents included here --}}
-    @include('shared.nav')
 
     {{-- Page content goes here --}}
-    <div>
+    <div class="email-body-container">
         @yield('content')
     </div>
 
     {{-- Footer --}}
     <footer class="bg-dark text-center text-light mt-auto py-3">
         <div class="container">
-            {{-- <form class="d-flex justify-content-center mb-3">
-                <input type="email" class="form-control w-25 me-2" placeholder="Enter your email" aria-label="Email">
-                <button type="submit" class="btn btn-outline-light">Subscribe</button>
-            </form> --}}
             <p>Follow us on
                 <a href="https://www.facebook.com" target="_blank">Facebook</a>,
                 <a href="https://www.twitter.com" target="_blank">X</a>,
