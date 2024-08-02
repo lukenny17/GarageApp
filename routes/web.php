@@ -39,7 +39,7 @@ Route::middleware(['auth', 'employee'])->group(function () {
     Route::post('/employee/bookings/toggle-status/{id}', [EmployeeController::class, 'toggleBookingStatus']);
     Route::get('/employee/bookings/{id}/services', [EmployeeController::class, 'editServices'])->name('employee.bookings.services');
     Route::post('/employee/bookings/{id}/services', [EmployeeController::class, 'updateServices'])->name('employee.bookings.updateServices');
-    Route::post('/employee/bookings/{id}/update-status', [EmployeeController::class, 'updateBookingStatus']);
+    Route::post('/employee/bookings/{id}/update-status', [EmployeeController::class, 'updateBookingStatus'])->name('employee.bookings.update-status');
 });
 
 // Route for creating a booking, model_name.action_name

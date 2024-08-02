@@ -19,11 +19,11 @@
                                         <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th style="width: 35%;">Service(s)</th>
-                                                    <th style="width: 15%;">Date/Time</th>
-                                                    <th style="width: 12.5%;">Vehicle</th>
-                                                    <th style="width: 12.5%;">Status</th>
-                                                    <th style="width: 25%;" class="text-end">Actions</th>
+                                                    <th style="width: 25%;">Service(s)</th>
+                                                    <th style="width: 20%;">Date/Time</th>
+                                                    <th style="width: 15%;">Vehicle</th>
+                                                    <th style="width: 10%;">Status</th>
+                                                    <th style="width: 30%;" class="text-end">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -90,17 +90,15 @@
                                         <table class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th style="width: 25%;">Make</th>
-                                                    <th style="width: 25%;">Model</th>
-                                                    <th style="width: 25%;">License Plate</th>
-                                                    <th style="width: 25%;" class="text-end">Actions</th>
+                                                    <th style="width: 35%;">Make / Model</th>
+                                                    <th style="width: 35%;">License Plate</th>
+                                                    <th style="width: 30%;" class="text-end">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach ($vehicles as $vehicle)
                                                     <tr>
-                                                        <td> {{ $vehicle->make }} </td>
-                                                        <td> {{ $vehicle->model }} </td>
+                                                        <td> {{ $vehicle->make }} {{ $vehicle->model }}</td>
                                                         <td>{{ $vehicle->licensePlate }}</td>
                                                         <td class="text-end">
                                                             <button class="btn btn-sm btn-warning btn-edit-vehicle"
