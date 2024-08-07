@@ -35,7 +35,7 @@
                                 <a class="nav-link" href="/bookings">Bookings</a>
                             @endif
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item me-2">
                             @if (Auth::user()->role === 'admin')
                                 <a class="nav-link" href="/admin">{{ Auth::user()->name }}'s Dashboard</a>
                             @elseif(Auth::user()->role === 'employee')

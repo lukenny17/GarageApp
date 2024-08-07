@@ -150,7 +150,7 @@ footer a:hover {
         margin-bottom: 0 !important;
     }
 }
-// to fix width of customer dashboard columns
+/* to fix width of customer dashboard columns */
 .table-fixed {
     table-layout: fixed;
     width: 100%;
@@ -161,7 +161,7 @@ footer a:hover {
     width: 25%;
 }
 
-// Star rating for customers to leave reviews
+/* Star rating for customers to leave reviews */
 .star-rating .fa-star {
     font-size: 1.5rem;
     color: #ddd;
@@ -182,7 +182,7 @@ footer a:hover {
     background-color: #069d75;
 }
 
-// Calendar colour edits
+/* Calendar colour edits */
 
 .fc .fc-event-dot {
     background-color: var(--danger-color);
@@ -225,7 +225,7 @@ footer a:hover {
     color: var(--accent-color);
 }
 
-// Email styling
+/* Email styling */
 
 .email-header {
     color: var(--accent-color);
@@ -289,4 +289,9 @@ footer a:hover {
     color: #fff;
     background-color: #c82333;
     border-color: #bd2130;
+}
+
+/* logout button formatting */
+nav .btn-outline-light {
+    border: 1px solid #fff; 
 }
