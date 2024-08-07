@@ -6,6 +6,8 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <h2 class="mb-4 text-center">Edit Service</h2>
+
+                    {{-- Dropdown to select a service to edit --}}
                     <div class="mb-3">
                         <label for="serviceSelect" class="form-label">Select Service</label>
                         <select id="serviceSelect" class="form-select">
@@ -15,6 +17,8 @@
                             @endforeach
                         </select>
                     </div>
+
+                    {{-- Form to edit the selected service details --}}
                     <form id="editServiceForm" method="POST">
                         @csrf
                         @method('PUT')
@@ -60,6 +64,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+            // Elements required for updating and deleting a service
             const serviceSelect = document.getElementById('serviceSelect');
             const editServiceForm = document.getElementById('editServiceForm');
             const serviceNameInput = document.getElementById('serviceName');
@@ -68,6 +74,7 @@
             const durationInput = document.getElementById('duration');
             const deleteServiceButton = document.getElementById('deleteServiceButton');
 
+            // When a service is selected, fetch and display its details
             serviceSelect.addEventListener('change', function() {
                 const serviceId = this.value;
 
@@ -75,16 +82,19 @@
                     fetch(`/admin/getService/${serviceId}`)
                         .then(response => response.json())
                         .then(service => {
+                            // Populate form fields with the service details
                             serviceNameInput.value = service.serviceName;
                             descriptionTextarea.value = service.description;
                             costInput.value = service.cost;
                             durationInput.value = service.duration;
-                            editServiceForm.action = `/admin/update-service/${service.id}`;
+                            editServiceForm.action =
+                                `/admin/update-service/${service.id}`; // Set form action URL for update
                             deleteServiceButton.dataset.serviceId = service
-                            .id; // Set data attribute for delete button
+                                .id; // Set data attribute for delete button
                         })
                         .catch(error => console.error('Error fetching service details:', error));
                 } else {
+                    // Clear form fields if no service is selected
                     serviceNameInput.value = '';
                     descriptionTextarea.value = '';
                     costInput.value = '';
@@ -93,7 +103,8 @@
                     deleteServiceButton.dataset.serviceId = ''; // Clear data attribute for delete button
                 }
             });
-
+            
+            // Handle delete button click to delete the selected service
             deleteServiceButton.addEventListener('click', function() {
                 const serviceId = this.dataset.serviceId;
 

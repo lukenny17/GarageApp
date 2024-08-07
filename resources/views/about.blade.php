@@ -5,7 +5,8 @@
         <div class="hero-about">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6"></div> <!-- Empty left half -->
+                    {{-- Empty left half --}}
+                    <div class="col-md-6"></div>
                     <div class="col-md-6">
                         <h1 class="text-center mb-4">About Us</h1>
                         <p>

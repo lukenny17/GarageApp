@@ -9,7 +9,7 @@
                     <form id="booking-form" action="{{ route('admin.storeBooking') }}" method="POST">
                         @csrf
 
-                        <!-- Customer Selection -->
+                        {{-- Customer Selection --}}
                         <div class="mb-3">
                             <label for="customer_id" class="form-label">Customer</label>
                             <select class="form-select" id="customer_id" name="customer_id" required
@@ -25,7 +25,7 @@
                             @enderror
                         </div>
 
-                        <!-- Vehicle Selection -->
+                        {{-- Vehicle Selection --}}
                         <div class="mb-3">
                             <label for="vehicle_id" class="form-label">Vehicle</label>
                             <select class="form-select" id="vehicle" name="vehicle_id" required
@@ -69,7 +69,7 @@
                             </div>
                         </div>
 
-                        <!-- Services Selection -->
+                        {{-- Services Selection --}}
                         <div class="mb-3">
                             <label for="service_ids" class="form-label">Services</label>
                             @foreach ($services as $service)
@@ -87,7 +87,7 @@
                             @enderror
                         </div>
 
-                        <!-- Date and Time Selection -->
+                        {{-- Date and Time Selection --}}
                         <div class="mb-3">
                             <label for="date" class="form-label">Date</label>
                             <input type="date" class="form-control" id="date" name="date" required>

@@ -3,13 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Review;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class WelcomeController extends Controller
 {
-    public function index(){
-        return view('welcome');
+    public function index()
+    {
+        // Retrieve all services for service carousel
+        $services = Service::all();
+
+        $fiveStarReviews = Review::where('rating', 5)
+            ->with('booking.customer') // Load related booking and customer
+            ->get();
+
+        return view('welcome', compact('fiveStarReviews', 'services'));
     }
 
     public function about()

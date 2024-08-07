@@ -14,12 +14,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/services">Services</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/bookings">Bookings</a>
-                    </li>
 
                     {{-- If user is a guest, show login/registration options --}}
                     @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="/bookings">Bookings</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/login">Login</a>
                         </li>
@@ -30,8 +30,13 @@
 
                     {{-- Checks if user is logged in or not, as well as the user type (admin, employee, customer) --}}
                     @auth()
-                        <li class="nav-item me-2">
-                            @if(Auth::user()->role === 'admin')
+                        <li class="nav-item">
+                            @if (Auth::user()->role === 'customer')
+                                <a class="nav-link" href="/bookings">Bookings</a>
+                            @endif
+                        </li>
+                        <li class="nav-item">
+                            @if (Auth::user()->role === 'admin')
                                 <a class="nav-link" href="/admin">{{ Auth::user()->name }}'s Dashboard</a>
                             @elseif(Auth::user()->role === 'employee')
                                 <a class="nav-link" href="/employee">{{ Auth::user()->name }}'s Dashboard</a>

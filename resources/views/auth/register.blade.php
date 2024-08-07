@@ -8,7 +8,7 @@
                     <h2 class="mb-4 text-center">Customer Registration</h2>
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-                        <!-- Name -->
+                        {{-- Name --}}
                         <div class="form-group mb-3">
                             <label for="name">Name</label>
                             <input type="text" id="name" name="name" class="form-control" :value="old('name')"
@@ -18,7 +18,7 @@
                             @enderror
                         </div>
 
-                        <!-- Email Address -->
+                        {{-- Email Address --}}
                         <div class="form-group mb-3">
                             <label for="email">Email</label>
                             <input type="email" id="email" name="email" class="form-control" :value="old('email')"
@@ -28,7 +28,7 @@
                             @enderror
                         </div>
 
-                        <!-- Phone Number -->
+                        {{-- Phone Number --}}
                         <div class="form-group mb-3">
                             <label for="phone">Phone Number (Optional)</label>
                             <input type="text" id="phone" name="phone" class="form-control" :value="old('phone')"
@@ -38,7 +38,7 @@
                             @enderror
                         </div>
 
-                        <!-- Password -->
+                        {{-- Password --}}
                         <div class="form-group mb-3">
                             <label for="password">Password</label>
                             <input type="password" id="password" name="password" class="form-control" required
@@ -48,7 +48,7 @@
                             @enderror
                         </div>
 
-                        <!-- Confirm Password -->
+                        {{-- Confirm Password --}}
                         <div class="form-group mb-3">
                             <label for="password_confirmation">Confirm Password</label>
                             <input type="password" id="password_confirmation" name="password_confirmation"

@@ -19,16 +19,18 @@ class CustomerMiddleware extends Middleware
     public function handle($request, Closure $next, ...$guards)
     {
         if ($this->auth->guard($guards)->guest()) {
-            return redirect()->guest(route('login'))->with('message', 'Please log in to access this page.');
+            return redirect()->guest(route('login'))
+            ->with('status', 'Please log in to access this page.');
         }
 
         $user = $this->auth->guard($guards)->user();
 
         // Check if the authenticated user has the 'customer' role
         if ($user->role !== 'customer') {
-            return redirect()->guest(route('login'))->with('message', 'In order to make a booking, please log in with a customer account.');
+            return redirect()->guest(route('login'))
+            ->with('status', 'In order to make a booking, please log in with a customer account.');
         }
-
+        
         return $next($request);
     }
 

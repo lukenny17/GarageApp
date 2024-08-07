@@ -8,7 +8,7 @@
                     <h2 class="mb-4 text-center">Login</h2>
 
                     @if (session('status'))
-                        <div class="alert alert-success">
+                        <div class="alert alert-success text-center">
                             {{ session('status') }}
                         </div>
                     @endif
@@ -16,7 +16,7 @@
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
-                        <!-- Email Address -->
+                        {{-- Email Address --}}
                         <div class="form-group mb-3">
                             <label for="email">Email</label>
                             <input type="email" id="email" name="email" class="form-control" :value="old('email')"
@@ -26,7 +26,7 @@
                             @enderror
                         </div>
 
-                        <!-- Password -->
+                        {{-- Password --}}
                         <div class="form-group mb-3">
                             <label for="password">Password</label>
                             <input type="password" id="password" name="password" class="form-control" required
@@ -34,12 +34,6 @@
                             @error('password')
                                 <span class="d-block fs-6 text-danger mt-2">{{ $message }}</span>
                             @enderror
-                        </div>
-
-                        <!-- Remember Me -->
-                        <div class="form-group form-check mb-3">
-                            <input type="checkbox" class="form-check-input" id="remember_me" name="remember">
-                            <label class="form-check-label" for="remember_me">Remember me</label>
                         </div>
 
                         <div class="text-center">

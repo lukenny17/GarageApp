@@ -9,17 +9,22 @@
                     <form id="booking-form" action="{{ route('bookings.store') }}" method="POST">
                         @csrf
 
+                        {{-- Vehicle selection dropdown --}}
                         <div class="mb-3">
                             <label for="vehicle_id" class="form-label">Vehicle</label>
                             <select class="form-select" id="vehicle" name="vehicle_id" required
                                 onchange="toggleNewVehicleFields()">
                                 <option value="">Select Vehicle</option>
+
+                                {{-- If no vehicles, provide option to add a new one --}}
                                 @if ($vehicles->isEmpty())
                                     <option value="new">Add New Vehicle</option>
                                 @else
+                                    {{-- List existing vehicles and option to add a new one --}}
                                     @foreach ($vehicles as $vehicle)
                                         <option value="{{ $vehicle->id }}">{{ $vehicle->make }} {{ $vehicle->model }}
-                                            ({{ $vehicle->licensePlate }})</option>
+                                            ({{ $vehicle->licensePlate }})
+                                        </option>
                                     @endforeach
                                     <option value="new">Add New Vehicle</option>
                                 @endif
@@ -29,6 +34,7 @@
                             @enderror
                         </div>
 
+                        {{-- Fields to add a new vehicle, hidden by default --}}
                         <div id="newVehicleFields" style="display: none;">
                             <div class="mb-3">
                                 <label for="make" class="form-label">Make</label>
@@ -60,6 +66,7 @@
                             </div>
                         </div>
 
+                        {{-- Services selection checkboxes --}}
                         <div class="mb-3">
                             <label for="service_ids" class="form-label">Services</label>
                             @foreach ($services as $service)
@@ -77,6 +84,7 @@
                             @enderror
                         </div>
 
+                        {{-- Date selection --}}
                         <div class="mb-3">
                             <label for="date" class="form-label">Date</label>
                             <input type="date" class="form-control" id="date" name="date" required>
@@ -85,9 +93,11 @@
                             @enderror
                         </div>
 
+                        {{-- Time selection dropdown --}}
                         <div class="mb-3">
                             <label for="time" class="form-label">Time</label>
                             <select class="form-select" id="time" name="time" required>
+                                {{-- Populate time slots dynamically --}}
                                 @foreach ($timeSlots as $slot)
                                     <option value="{{ $slot }}">{{ $slot }}</option>
                                 @endforeach

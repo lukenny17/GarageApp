@@ -7,6 +7,7 @@
                 <div class="col-12">
                     <h2 class="mb-4 text-center">Employee Dashboard</h2>
 
+                    {{-- Display bookings allocated to employees --}}
                     <div class="card mb-4">
                         <div class="card-header">
                             <h4 class="mb-0">Bookings</h4>
@@ -64,7 +65,7 @@
             </div>
         </div>
 
-        <!-- Include the Edit Services Modal -->
+        {{-- Include the Edit Services Modal --}}
         @include('employee.edit_services_modal')
 
     </section>

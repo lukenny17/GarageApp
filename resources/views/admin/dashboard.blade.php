@@ -7,9 +7,16 @@
                 <div class="col-12">
                     <h2 class="mb-4 text-center">Admin Dashboard</h2>
 
+                    {{-- Display success message --}}
+                    @if (session('success'))
+                        <div class="alert alert-success text-center mt-3">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                     <div class="row mb-4">
                         <div class="col-md-6">
-                            <!-- Booking Filters -->
+                            {{-- Booking Filters --}}
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="mb-0">Filter Bookings</h4>
@@ -25,36 +32,34 @@
                                             <input type="date" id="endDate" name="endDate" class="form-control">
                                         </div>
                                         <div class="col-auto d-flex align-items-center mb-2">
-                                            <button type="button" id="viewBookingsButton" class="btn custom-btn">View Bookings</button>
+                                            <button type="button" id="viewBookingsButton" class="btn custom-btn">View
+                                                Bookings</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <!-- Create New User Button -->
+                            {{-- Create New User Button --}}
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="mb-0">Actions</h4>
                                 </div>
                                 <div class="card-body text-center">
-                                    <a href="{{ route('admin.createUserForm') }}" class="btn custom-btn mb-2">Create User</a>
-                                    <a href="{{ route('admin.addServiceForm') }}" class="btn custom-btn mb-2">Add Service</a>
-                                    <a href="{{ route('admin.editServiceForm') }}" class="btn custom-btn mb-2">Edit / Delete Service</a>
-                                    <a href="{{ route('admin.createBookingForm') }}" class="btn custom-btn mb-2">Create Booking</a>
+                                    <a href="{{ route('admin.createUserForm') }}" class="btn custom-btn mb-2">Create
+                                        User</a>
+                                    <a href="{{ route('admin.addServiceForm') }}" class="btn custom-btn mb-2">Add
+                                        Service</a>
+                                    <a href="{{ route('admin.editServiceForm') }}" class="btn custom-btn mb-2">Edit / Delete
+                                        Service</a>
+                                    <a href="{{ route('admin.createBookingForm') }}" class="btn custom-btn mb-2">Create
+                                        Booking</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {{-- Display success message --}}
-                    @if (session('success'))
-                        <div class="alert alert-success mt-3">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-
-                    <!-- Bookings Table -->
+                    {{-- Bookings Table --}}
                     <div class="card mb-4">
                         <div class="card-header">
                             <h4 class="mb-0">Bookings</h4>
@@ -77,7 +82,7 @@
                         </div>
                     </div>
 
-                    <!-- Calendar Section -->
+                    {{-- Calendar Section --}}
                     <div class="card mb-4">
                         <div class="card-header">
                             <h4 class="mb-0">Calendar</h4>
@@ -87,13 +92,15 @@
                         </div>
                     </div>
 
-                    <!-- Event Details Modal -->
-                    <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+                    {{-- Event Details Modal --}}
+                    <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="eventDetailsModalLabel">Booking Details</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <p id="eventTitle"></p>
@@ -113,10 +120,10 @@
         </div>
     </section>
 
-    <!-- FullCalendar CSS -->
+    {{-- FullCalendar CSS --}}
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
 
-    <!-- FullCalendar JS -->
+    {{-- FullCalendar JS --}}
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
 
     <script>
@@ -124,15 +131,18 @@
             const startDate = document.getElementById('startDate');
             const endDate = document.getElementById('endDate');
 
-            // Set default dates
+            // Set default dates: today and one week from today
             const today = new Date().toISOString().split('T')[0];
             const oneWeekFromToday = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
+            // Initialise the date inputs with the default values
             startDate.value = today;
             endDate.value = oneWeekFromToday;
 
+            // Add a click event listener to the "View Bookings" button
             document.getElementById('viewBookingsButton').addEventListener('click', fetchBookings);
 
+            // Function to fetch bookings from the server
             function fetchBookings() {
                 const startDateValue = startDate.value;
                 const endDateValue = endDate.value;
@@ -142,12 +152,14 @@
                     return;
                 }
 
+                // Prepare the data to send in the request, including CSRF token for security
                 const data = {
                     start_date: startDateValue,
                     end_date: endDateValue,
                     _token: '{{ csrf_token() }}'
                 };
 
+                // Use Fetch API to send a POST request to fetch bookings
                 fetch('{{ route('admin.getBookings') }}', {
                         method: 'POST',
                         headers: {
@@ -158,13 +170,16 @@
                     })
                     .then(response => response.json())
                     .then(result => {
+                        // Check if bookings and employees data are present
                         if (result.bookings && result.employees) {
                             const bookingsTableBody = document.getElementById('bookingsTableBody');
-                            bookingsTableBody.innerHTML = ''; // Clear previous results
+                            bookingsTableBody.innerHTML = ''; // Clear previous results from the table
 
                             result.bookings.forEach(booking => {
                                 const row = document.createElement('tr');
-                                const services = booking.services.map(service => service.serviceName).join(', ');
+                                // Join service names with commas for display
+                                const services = booking.services.map(service => service.serviceName)
+                                    .join(', ');
                                 row.innerHTML = `
                                     <td>${booking.customer.name}</td>
                                     <td>${services}</td>
@@ -173,20 +188,20 @@
                                     <td>
                                         <select class="form-select assign-employee" data-booking-id="${booking.id}">
                                             <option value="">Not Assigned</option>
-                                            ${result.employees.map(employee => `
-                                                <option value="${employee.id}" ${booking.employee && booking.employee.id === employee.id ? 'selected' : ''}>${employee.name}</option>
-                                            `).join('')}
+                                            ${result.employees.map(employee =>`
+                                            <option value="${employee.id}" ${booking.employee && booking.employee.id === employee.id ? 'selected' : ''}>${employee.name}</option>`).join('')}
                                         </select>
                                     </td>
                                 `;
-                                bookingsTableBody.appendChild(row);
+                                bookingsTableBody.appendChild(row); // Append the row to the table body
                             });
 
                             document.querySelectorAll('.assign-employee').forEach(select => {
                                 select.addEventListener('change', function() {
                                     const bookingId = this.dataset.bookingId;
                                     const employeeId = this.value;
-                                    assignEmployee(bookingId, employeeId);
+                                    assignEmployee(bookingId,
+                                        employeeId); // Call function to assign employee
                                 });
                             });
 
@@ -201,6 +216,7 @@
                     });
             }
 
+            // Function to assign an employee to a booking
             function assignEmployee(bookingId, employeeId) {
                 const data = {
                     booking_id: bookingId,
@@ -208,6 +224,7 @@
                     _token: '{{ csrf_token() }}'
                 };
 
+                // Use Fetch API to send a POST request to assign the employee
                 fetch('{{ route('admin.assignEmployee') }}', {
                         method: 'POST',
                         headers: {
@@ -230,6 +247,7 @@
                     });
             }
 
+            // Function to update the calendar with booking events
             function updateCalendar(bookings) {
                 const calendarEl = document.getElementById('calendar');
                 const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -239,19 +257,28 @@
                         center: 'title',
                         right: 'dayGridMonth,timeGridWeek,timeGridDay'
                     },
+
+                    // Event click handler to display booking details
                     eventClick: function(info) {
                         info.jsEvent.preventDefault();
-                        document.getElementById('eventTitle').textContent = 'Service: ' + info.event.title;
-                        document.getElementById('eventStart').textContent = 'Start: ' + (info.event.start ? info.event.start.toLocaleString() : 'No start time');
-                        document.getElementById('eventEnd').textContent = 'End: ' + (info.event.end ? info.event.end.toLocaleString() : 'No end time');
-                        document.getElementById('eventStatus').textContent = 'Status: ' + info.event.extendedProps.status;
-                        document.getElementById('eventStaff').textContent = 'Assigned to: ' + info.event.extendedProps.staffName;
+                        document.getElementById('eventTitle').textContent = 'Service: ' + info.event
+                            .title;
+                        document.getElementById('eventStart').textContent = 'Start: ' + (info.event
+                            .start ? info.event.start.toLocaleString() : 'No start time');
+                        document.getElementById('eventEnd').textContent = 'End: ' + (info.event.end ?
+                            info.event.end.toLocaleString() : 'No end time');
+                        document.getElementById('eventStatus').textContent = 'Status: ' + info.event
+                            .extendedProps.status;
+                        document.getElementById('eventStaff').textContent = 'Assigned to: ' + info.event
+                            .extendedProps.staffName;
                         new bootstrap.Modal(document.getElementById('eventDetailsModal')).show();
                     },
+                    // Convert bookings to calendar events
                     events: bookings.map(booking => ({
                         title: booking.services.map(service => service.serviceName).join(', '),
                         start: booking.startTime,
-                        end: new Date(new Date(booking.startTime).getTime() + booking.duration * 60 * 60 * 1000),
+                        end: new Date(new Date(booking.startTime).getTime() + booking.duration *
+                            60 * 60 * 1000),
                         extendedProps: {
                             status: booking.status,
                             staffName: booking.employee ? booking.employee.name : 'Not Assigned'
@@ -262,9 +289,8 @@
                 calendar.render();
             }
 
-            // Initialize the calendar on page load
+            // Initialise the calendar on page load
             updateCalendar([]);
         });
     </script>
 @endsection
-

@@ -6,7 +6,8 @@
             <div class="modal-content">
                 <div class="modal-header d-flex justify-content-center">
                     <h5 class="modal-title text-center" id="rescheduleBookingModalLabel">Reschedule Booking</h5>
-                    <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
@@ -30,37 +31,35 @@
     </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    function setMinDate(inputId) {
-        var dateInput = document.getElementById(inputId);
-        
-        // Set the min attribute of the date input field to tomorrow
-        var today = new Date();
-        var tomorrow = new Date(today);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        var yyyy = tomorrow.getFullYear();
-        var mm = String(tomorrow.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-        var dd = String(tomorrow.getDate()).padStart(2, '0');
-        dateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        function setMinDate(inputId) {
+            var dateInput = document.getElementById(inputId);
 
-    function validateDateInput(inputId) {
-        var dateInput = document.getElementById(inputId);
-        dateInput.addEventListener('input', function () {
-            var selectedDate = new Date(dateInput.value);
+            // Set the min attribute of the date input field to tomorrow
             var today = new Date();
-            today.setHours(0, 0, 0, 0); // Clear time part for comparison
-            if (selectedDate <= today) {
-                alert('Please select a date at least one day ahead.');
-                dateInput.value = '';
-            }
-        });
-    }
+            var tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            var yyyy = tomorrow.getFullYear();
+            var mm = String(tomorrow.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+            var dd = String(tomorrow.getDate()).padStart(2, '0');
+            dateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
+        }
 
-    // Apply the date restrictions for the reschedule form
-    setMinDate('reschedule-date');
-    validateDateInput('reschedule-date');
-});
+        function validateDateInput(inputId) {
+            var dateInput = document.getElementById(inputId);
+            dateInput.addEventListener('input', function() {
+                var selectedDate = new Date(dateInput.value);
+                var today = new Date();
+                today.setHours(0, 0, 0, 0); // Clear time part for comparison
+                if (selectedDate <= today) {
+                    alert('Please select a date at least one day ahead.');
+                    dateInput.value = '';
+                }
+            });
+        }
 
-
+        // Apply the date restrictions for the reschedule form
+        setMinDate('reschedule-date');
+        validateDateInput('reschedule-date');
+    });
 </script>

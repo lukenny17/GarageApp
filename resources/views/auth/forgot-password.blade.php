@@ -20,7 +20,7 @@
                     <form method="POST" action="{{ route('password.email') }}">
                         @csrf
 
-                        <!-- Email Address -->
+                        {{-- Email Address --}}
                         <div class="form-group mb-3">
                             <label for="email">Email</label>
                             <input type="email" id="email" name="email" class="form-control" :value="old('email')"

@@ -9,7 +9,7 @@
 
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <!-- Bookings Section -->
+                            {{-- Bookings Section --}}
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <h4 class="mb-0">Bookings</h4>
@@ -78,9 +78,9 @@
                         </div>
                     </div>
 
+                    {{-- Vehicles Section --}}
                     <div class="row mb-4">
                         <div class="col-md-12">
-                            <!-- Vehicles Section -->
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="mb-0">Vehicles</h4>
@@ -120,7 +120,7 @@
                         </div>
                     </div>
 
-                    <!-- Settings Link -->
+                    {{-- Settings Link --}}
                     <div class="mb-4 text-center">
                         <a href="{{ route('customer.settings') }}" class="btn custom-btn">
                             <span>Edit Profile</span>
@@ -130,7 +130,7 @@
             </div>
         </div>
 
-        <!-- Modals -->
+        {{-- Modals --}}
         @include('customer.reschedule_modal')
         @include('customer.review_modal')
         @include('customer.edit_vehicle_modal')
@@ -148,11 +148,12 @@
                 button.addEventListener('click', function() {
                     cancelBookingId = this.getAttribute('data-id');
                     const cancelModal = new bootstrap.Modal(document.getElementById(
-                        'cancelConfirmationModal'));
+                        'cancelConfirmationModal')); // Show confirmation modal
                     cancelModal.show();
                 });
             });
 
+            // Confirm cancel booking
             document.getElementById('confirmCancelBooking').addEventListener('click', function() {
                 if (cancelBookingId) {
                     fetch(`/customer/bookings/cancel/${cancelBookingId}`, {
@@ -169,19 +170,22 @@
             });
 
             // Reschedule Booking
+            // Add click event listeners to all reschedule booking buttons
             document.querySelectorAll('.btn-reschedule-booking').forEach(button => {
                 button.addEventListener('click', function() {
                     const bookingId = this.getAttribute('data-id');
-                    const bookingDuration = this.getAttribute('data-duration');
+                    const bookingDuration = this.getAttribute(
+                        'data-duration');
                     document.getElementById('reschedule-booking-form').setAttribute('data-id',
                         bookingId);
                     document.getElementById('reschedule-booking-form').setAttribute('data-duration',
                         bookingDuration);
-                    updateRescheduleTimes(bookingDuration);
+                    updateRescheduleTimes(bookingDuration); // Update available times
                     new bootstrap.Modal(document.getElementById('rescheduleBookingModal')).show();
                 });
             });
 
+            // Handle reschedule form submission
             document.getElementById('reschedule-booking-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const bookingId = this.getAttribute('data-id');
@@ -195,7 +199,7 @@
                 }).then(response => response.json()).then(data => {
                     if (data.success) {
                         new bootstrap.Modal(document.getElementById('rescheduleBookingModal'))
-                            .hide();
+                            .hide(); // Hide reschedule modal on success
                         location.reload();
                     }
                 });
@@ -211,15 +215,19 @@
                     ratingInput.value = value;
                     stars.forEach(s => {
                         if (s.getAttribute('data-value') <= value) {
-                            s.classList.add('checked');
+                            s.classList.add(
+                                'checked'
+                            ); // Add checked class to stars up to the clicked one
                         } else {
-                            s.classList.remove('checked');
+                            s.classList.remove(
+                                'checked'); // Remove checked class from other stars
                         }
                     });
                 });
             });
 
             // Leave Review
+            // Add click event listeners to all leave review buttons
             document.querySelectorAll('.btn-review-booking').forEach(button => {
                 button.addEventListener('click', function() {
                     const bookingId = this.getAttribute('data-id');
@@ -231,6 +239,7 @@
                 });
             });
 
+            // Handle review form submission
             document.getElementById('review-booking-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const bookingId = this.getAttribute('data-id');
@@ -276,7 +285,8 @@
                         });
                 });
             });
-
+            
+            // Handle edit vehicle form submission
             document.getElementById('edit-vehicle-form').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const vehicleId = this.getAttribute('data-id');
@@ -304,9 +314,9 @@
                 dateInput.addEventListener('input', function() {
                     const selectedDate = new Date(dateInput.value);
                     const day = selectedDate.getDay();
-                    if (day === 0 || day === 6) { // 0 = Sunday, 6 = Saturday
+                    if (day === 0 || day === 6) { // Check if selected day is weekend
                         alert('Please select a weekday.');
-                        dateInput.value = '';
+                        dateInput.value = ''; // Clear date input
                         return;
                     }
 
@@ -317,14 +327,14 @@
 
                     originalOptions.forEach(function(option) {
                         const startTime = new Date();
-                        const [hours, minutes] = option.value.split(':');
-                        startTime.setHours(hours, minutes, 0, 0);
+                        const [hours, minutes] = option.value.split(':'); // Split option value into hours and minutes
+                        startTime.setHours(hours, minutes, 0, 0); // Set start time
 
                         const endTimeWithService = new Date(startTime.getTime() + duration * 60 *
-                            60 * 1000);
+                            60 * 1000); // Calculate end time with service duration
 
-                        if (endTimeWithService <= endTime) {
-                            timeSelect.add(option.cloneNode(true));
+                        if (endTimeWithService <= endTime) { // Check if end time is within working hours
+                            timeSelect.add(option.cloneNode(true)); // Add valid options back to selections
                         }
                     });
                 });
