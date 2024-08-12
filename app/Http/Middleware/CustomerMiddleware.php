@@ -20,7 +20,7 @@ class CustomerMiddleware extends Middleware
     {
         if ($this->auth->guard($guards)->guest()) {
             return redirect()->guest(route('login'))
-            ->with('status', 'Please log in to access this page.');
+            ->with('status', 'In order to make a booking, please log in with a customer account.');
         }
 
         $user = $this->auth->guard($guards)->user();
