@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Mail\BookingConfirmationMail;
 use App\Models\Service;
 use App\Models\Booking;
-use App\Models\Review;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Traits\GeneratesTimeSlots;
@@ -107,45 +106,6 @@ class BookingController extends Controller
     public function confirmation()
     {
         return view('bookings.confirmation');
-    }
-
-    public function cancelBooking($id)
-    {
-        $booking = Booking::findOrFail($id);
-        $booking->update(['status' => 'cancelled']);
-        return response()->json(['success' => true]);
-    }
-
-    public function rescheduleBooking(Request $request, $id)
-    {
-        $booking = Booking::findOrFail($id);
-        $booking->update([
-            'startTime' => $request->date . ' ' . $request->time,
-            'status' => 'scheduled',
-        ]);
-        return response()->json(['success' => true]);
-    }
-
-    public function leaveReview(Request $request, $id)
-    {
-        $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'required|string',
-        ]);
-
-        $booking = Booking::findOrFail($id);
-
-        $review = Review::create([
-            'booking_id' => $booking->id,
-            'rating' => $request->rating,
-            'comment' => $request->comment,
-        ]);
-
-        // Update the booking to mark the review as submitted
-        $booking->review_submitted = true;
-        $booking->save();
-
-        return response()->json(['success' => true]);
     }
 
     public function approveServiceUpdate($id)

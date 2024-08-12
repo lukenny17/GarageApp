@@ -75,10 +75,10 @@ class AdminController extends Controller
             $endDate = $validated['end_date'] . ' 23:59:59';
 
             $bookings = Booking::where(function ($query) use ($startDate, $endDate) {
-                $query->whereBetween('startTime', [$startDate, $endDate])
-                    ->orWhereRaw('DATE_ADD(startTime, INTERVAL duration HOUR) BETWEEN ? AND ?', [$startDate, $endDate]);
+                $query->whereBetween('startTime', [$startDate, $endDate]) // Filters bookings where the startTime falls within the specified date range
+                    ->orWhereRaw('DATE_ADD(startTime, INTERVAL duration HOUR) BETWEEN ? AND ?', [$startDate, $endDate]); // Filgers bookings when end time of the booking falls with the specified date range
             })
-                ->with(['customer', 'services', 'employee', 'vehicle'])
+                ->with(['customer', 'services', 'employee', 'vehicle']) // Perform eager loading of related models
                 ->get();
 
             // Fetch employees
