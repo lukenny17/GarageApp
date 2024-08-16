@@ -2,7 +2,7 @@
 
 ### Overview
 
-The **Garage Booking Application (GBA)** is a web-based platform designed to streamline the process of booking vehicle maintenance and repair services at a local garage. It enhances the customer experience by simplifying service booking, providing timely reminders, and supporting garage administrators and employees in managing customer information, bookings, and service offerings efficiently.
+Created as an MSc Computer Science dissertation project, the **Garage Booking Application (GBA)** is a web-based platform designed to streamline the process of booking vehicle maintenance and repair services at a local garage. It enhances the customer experience by simplifying service booking, providing timely reminders, and supporting garage administrators and employees in managing customer information, bookings, and service offerings efficiently.
 
 ### Features
 
