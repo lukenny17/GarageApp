@@ -1,4 +1,4 @@
-{-- Demo Modal --}
+{{-- Demo Modal --}}
 <div class="modal fade" id="demoModal" tabindex="-1" aria-labelledby="demoModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
