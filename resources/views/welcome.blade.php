@@ -6,7 +6,7 @@
         <div class="container">
             <h1 class="display-4">{{ config('app.name') }}</h1>
             <p class="lead">Rev Up Your Service.</p>
-            <a href="/bookings" class="btn btn-outline-light btn-lg">Book Now</a>
+            <a href="/bookings" class="btn-hero">Book Now</a>
         </div>
     </div>
 
@@ -121,4 +121,5 @@
             width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
+
 @endsection

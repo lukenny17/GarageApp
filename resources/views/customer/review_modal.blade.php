@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary btn-submit-review">Submit Review</button>
+                    <button type="submit" class="btn custom-btn btn-submit-review">Submit Review</button>
                 </div>
             </div>
         </form>

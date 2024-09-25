@@ -53,6 +53,9 @@
                     @endauth
                 </ul>
             </div>
+            <div class="ms-auto">
+                <button type="button" class="btn btn-outline-light custom-outline" data-bs-toggle="modal" data-bs-target="#demoModal">Read Me</button>
+            </div>
         </div>
     </div>
 </nav>

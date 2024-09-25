@@ -24,14 +24,14 @@ body {
 }
 
 no-padding {
-    padding-bottom = 0;
+    padding-bottom: 0;
 }
-  
+
 .custom-alert {
     color: var(--accent-color);
     background-color: var(--light-color);
   }
-  
+
 .hero {
     background-image: url('/images/hero_welcome.jpg');
     background-size: cover;
@@ -43,7 +43,35 @@ no-padding {
     justify-content: center;
     text-align: center;
 }
-  
+
+.btn-hero {
+    background-color: white;
+    color: black;
+    border: 1px solid transparent;
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    padding: 0.5rem 0.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.btn-hero:hover {
+    color: white;
+    background-color: transparent;
+    border: 1px solid white;
+    text-decoration: none;
+}
+
+.custom-outline {
+    border-width: 1px;
+    padding: 0.25rem 0.5rem;
+}
+
 .custom-img-size {
     width: 50%;
     height: auto;
@@ -96,7 +124,7 @@ footer a:hover {
     height: 100%;
 }
 
-// Text overlay for service items in carousel
+/*Text overlay for service items in carousel*/
 .carousel-item {
     position: relative;
 }
@@ -121,7 +149,7 @@ footer a:hover {
 }
 
 .fixed-height-img {
-    height: 350px; 
+    height: 350px;
     object-fit: cover;
     width: 100%;
 }
@@ -189,7 +217,7 @@ footer a:hover {
 }
 
 .fc .fc-toolbar-title {
-    color: var(--accent-color); 
+    color: var(--accent-color);
 }
 
 .fc .fc-button:hover {
@@ -293,5 +321,5 @@ footer a:hover {
 
 /* logout button formatting */
 nav .btn-outline-light {
-    border: 1px solid #fff; 
+    border: 1px solid #fff;
 }

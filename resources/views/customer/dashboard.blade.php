@@ -48,7 +48,7 @@
                                                                     data-id="{{ $booking->id }}">Cancel</button>
                                                             @else
                                                                 <button
-                                                                    class="btn btn-sm btn-success btn-review-booking review-button mb-2 mb-md-0 me-md-2"
+                                                                    class="btn custom-btn btn-sm mb-2 mb-md-0 me-md-2 btn-review-booking"
                                                                     data-id="{{ $booking->id }}"
                                                                     @if ($booking->review_submitted) disabled @endif>
                                                                     @if ($booking->review_submitted)
@@ -285,7 +285,7 @@
                         });
                 });
             });
-            
+
             // Handle edit vehicle form submission
             document.getElementById('edit-vehicle-form').addEventListener('submit', function(e) {
                 e.preventDefault();
